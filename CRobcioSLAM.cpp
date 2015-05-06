@@ -108,7 +108,7 @@ CPointsMapPtr CRobcioSLAM::createEmptyMap() {
 
 
 }
-CPointsMapPtr CRobcioSLAM::loadMapFromGrid() { 
+CPointsMapPtr CRobcioSLAM::loadMapFromRawLog() { 
 	
 	string str="C:\\Temp\\RawLogTest.rawlog";
 	
@@ -227,30 +227,11 @@ CPointsMapPtr CRobcioSLAM::loadMapFromGrid() {
 	  }
 	
 
-			std::cout<<"sss";
-			//gridmapLoad=thePntsMap;
-   
+			std::cout<<"sss"; 
 			return thePntsMap;
 
-	/*
-
-		CSensoryFramePtr SF = rawlog.getAsObservations(countLoop);
-
-				for (size_t j=0;j<SF->size();j++)
-				{
-					CObservationPtr obs = SF->getObservationByIndex(j);
-	*/
-	//rawLog.size();
-
-	//pointMap.insertObservation(new CObservationOdometry(cob));
-
-//	CFileGZInputStream f(file);
-//	f >> gridmap;
-//	f.close();
 }
 void CRobcioSLAM::initFileGridExport(){
-	COccupancyGridMap2D grid(-1,1, -1,1,  0.010);
-	//gridmap=grid;
 	lastX=0;
 	lastY=0;
 	isStart=true;
@@ -261,7 +242,6 @@ void CRobcioSLAM::initFileGridExport(){
 	int 			rawlog_GZ_compress_level  = 1; 
 	out_file.open( rawlog_filename, rawlog_GZ_compress_level );
 
-//	importFromCSVFile();
 };
 void CRobcioSLAM::closeFileGridExport(){
 
@@ -272,27 +252,12 @@ void CRobcioSLAM::closeFileGridExport(){
 void CRobcioSLAM::importFromCSVFile(CPointsMapPtr gridmapLoad){
 
 	printf("\n importFromCSVFile \n");
-	
 
-	
-	//ifstream input( "c:\\Temp\\logRecor_2014-02-25 09_17_27_.csv" );
-	ifstream input( "c:\\Temp\\logRecor_2015-05-04 20_56_58_.csv" );
-	//ifstream input( "c:\\Temp\\logRecor_2014-02-25 02_10_52_.csv" );
-	//ifstream input( "c:\\Temp\\logRecor_2014-02-24 22_25_28_.csv" );
-	//initFileGridExport();
-	
-	
+	ifstream input( "c:\\Temp\\logRecor_2015-05-04 20_56_58_.csv" );		
 	for( std::string line; getline( input, line ); )
 	{
-
-		readDataScanFromCSV(line,gridmapLoad);
-		//readDataScanAndCreateMap(line);
+		readDataScanFromString(line,gridmapLoad);
 	}
-	
-	//gridmap.saveAsBitmapFile("C:\\Temp\\gridMap.bmp");*/
-	//gridmap.saveAsBitmapFile("C:\\Temp\\TestGridMap.bmp");
-	
-
 };
 CRawlog CRobcioSLAM::createRawlog(){
 
@@ -312,7 +277,7 @@ CRawlog CRobcioSLAM::createRawlog(){
 	return rawLog;
 
 };
-void CRobcioSLAM::readDataScanFromCSV(std::string line,CPointsMapPtr gridmapLoad){
+void CRobcioSLAM::readDataScanFromString(std::string line,CPointsMapPtr gridmapLoad){
 
 	//printf("\n readDataScanFromCSV \n");
 	CPose2D odometryIncrements;
@@ -409,8 +374,7 @@ void CRobcioSLAM::readDataScanFromCSV(std::string line,CPointsMapPtr gridmapLoad
 	
 	
 	
-	//out_file << odom;
-	//out_file << the_scan;
+
 	CActionCollection    acts;
 	//CActionRobotMovement2D move;
 
@@ -437,115 +401,70 @@ void CRobcioSLAM::readDataScanFromCSV(std::string line,CPointsMapPtr gridmapLoad
 
 
 	gridmapLoad->insertObservation(new CObservationOdometry(cob));
-
-	
-	
-//	out_file << frame;
-//	out_file <<acts;
+	out_file << frame;
+	out_file <<acts;
 	//out_file << odom;
-//	rawLog.addObservationMemoryReference(odom);
-//	rawLog.addObservationMemoryReference(the_scan);
+
 
 };
-void CRobcioSLAM::readDataScanAndCreateMap(std::string line){
 
-	//gridmap
-	//printf("\n readDataScanFromCSV \n");
-	CPose2D odometryIncrements;
-	vector<double> changeStatusArrayData=parseLineLog(line);
-	string actionStep=parseLineGetStat(line); 
+void CRobcioSLAM::alignICP(CSimplePointsMap		*mainMap,CSimplePointsMap *scanedMap){
 
-	double newCompasRadius=changeStatusArrayData[2];
-	double newDystance=changeStatusArrayData[1];
+	float					runningTime;
+	CICP::TReturnInfo		info;
+	CICP					ICP;
 
-	double overAll=360;
-	double radiusFromCompas=overAll*(newCompasRadius);
-	
-	double phiCompasRadius=DEG2RAD(radiusFromCompas);
-//	printf("phiCompasRadius: %f , radiusFromCompas: %f  \n",phiCompasRadius,radiusFromCompas);
-	
+	int  ICP_method = (int) icpClassic;
+	// -----------------------------------------------------
+//	ICP.options.ICP_algorithm = icpLevenbergMarquardt;
+	//ICP.options.ICP_algorithm = icpClassic;
+	ICP.options.ICP_algorithm = (TICPAlgorithm)ICP_method;
 
-	vector<double> arrayXY=getCordinate((newDystance), DEG2RAD(overAll*(newCompasRadius)));
-	//compasRadius=newCompasRadius;
+	ICP.options.maxIterations			= 100;
+	//ICP.options.thresholdAng			= DEG2RAD(360.0f);
+	ICP.options.thresholdDist			= 0.75f;
+	ICP.options.ALFA					= 0.5f;
+	ICP.options.smallestThresholdDist	= 0.05f;
+	ICP.options.doRANSAC = false;
 
-	//isStart=false;
-	//actionStepLast="Left";
-	//actionStep="Left";
-	CObservationOdometry cob;
-	cob.sensorLabel="RobcioSensor";
-	if(isStart){
+	ICP.options.dumpToConsole();
+	// -----------------------------------------------------
 
-		
-		odometryIncrements=CPose2D(0,0,phiCompasRadius);		
-		
-		isStart=false;
+	CPose2D		initialPose(0.0f,0.0f,(float)DEG2RAD(0.0f));
 
-	}else if(actionStep=="Forward" ){
-	//}else if(actionStep=="Forward" && (actionStepLast=="Forward" || actionStepLast=="Back" || actionStepLast=="Stop")){
-		lastX+=arrayXY[0];
-		lastY+=arrayXY[1];
-		odometryIncrements=CPose2D(lastX,lastY,phiCompasRadius);					
-	//}else if(actionStep=="Back" && (actionStepLast=="Back" || actionStepLast=="Forward" || actionStepLast=="Stop")){
-	}else if(actionStep=="Back" ){
-		lastX+=arrayXY[0];
-		lastY+=arrayXY[1];
-		odometryIncrements=CPose2D(lastX,lastY,phiCompasRadius);	
-	}else if(actionStep=="Left" && actionStepLast=="Left"){
-		odometryIncrements=CPose2D(lastX,lastY,phiCompasRadius);
-	}else if(actionStep=="Right" && actionStepLast=="Right"){
-		odometryIncrements=CPose2D(lastX,lastY,phiCompasRadius);
-	}else{
 
-		odometryIncrements=CPose2D(lastX,lastY,phiCompasRadius);
-		
-	
-	}
-	actionStepLast=actionStep;
 
-	
-	
-	cob.odometry=odometryIncrements;		
-	odoLast=cob.odometry;
-	//printf("X: %f , Y: %f cord: %s \n",arrayXY[0],arrayXY[1],cob.odometry.asString().c_str());
-	cob.timestamp=mrpt::system::time_tToTimestamp(changeStatusArrayData[0]);
-	CObservationOdometryPtr odom = CObservationOdometryPtr(new CObservationOdometry(cob));
-	//printf(" cord: %s %s %i \n",odometryIncrements.asString().c_str(),actionStep.c_str(),radiusFromCompas);
+	CPosePDFPtr pdf = ICP.Align(
+		mainMap,
+		scanedMap,
+		initialPose,
+		&runningTime,
+		(void*)&info);
+	printf("ICP run in %.02fms, %d iterations (%.02fms/iter), %.01f%% goodness\n -> ",
+			runningTime*1000,
+			info.nIterations,
+			runningTime*1000.0f/info.nIterations,
+			info.goodness*100 );
+	cout << "Mean of estimation: " << pdf->getMeanVal() << endl<< endl;
+	CPosePDFGaussian  gPdf;
+	gPdf.copyFrom(*pdf);
 
-	/*
-	*The scan
-	*/
 
-	
-	CObservation2DRangeScanPtr the_scan = CObservation2DRangeScan::Create();
-	the_scan->rightToLeft=false;
-	the_scan->aperture = DEG2RAD(120);
-	the_scan->timestamp = mrpt::system::time_tToTimestamp(changeStatusArrayData[0]);
-	//the_scan->sensorPose=cob.odometry; // this is not workin I get wrong map
-	the_scan->sensorLabel="RobcioSensor";
-	the_scan->maxRange=2.50f;
-	for(int i=7;i<changeStatusArrayData.size();i++){
-		if(changeStatusArrayData[i]>the_scan->maxRange){
 
-			the_scan->scan.push_back(changeStatusArrayData[i]);
-			the_scan->validRange.push_back(0);
-		}else{
-			the_scan->scan.push_back(changeStatusArrayData[i]);
-			the_scan->validRange.push_back(1);
-		}
+	cout << "Covariance of estimation: " << endl << gPdf.cov << endl;
 
-	}
+	cout << " std(x): " << sqrt( gPdf.cov(0,0) ) << endl;
+	cout << " std(y): " << sqrt( gPdf.cov(1,1) ) << endl;
+	cout << " std(phi): " << RAD2DEG(sqrt( gPdf.cov(2,2) )) << " (deg)" << endl;
+
+	//cout << "Covariance of estimation (MATLAB format): " << endl << gPdf.cov.inMatlabFormat()  << endl;
+
+
+
+	cout << "-> Saving transformed map to align as scan2_trans.txt" << endl;
+
+	(*scanedMap).changeCoordinatesReference( gPdf.mean );
 	
 
-	//gridmap.
-	CPose3D		dumPose(cob.odometry);
-	//gridmap.insertObservation(the_scan.pointer(),&dumPose);
-	//gridmap.insertObservationPtr(the_scan,&dumPose);
-
-	//gridmap.
-	//gridmap.laserScanSimulator(*the_scan,cob.odometry,0.5,240,0,1,0);
-	
-	out_file << odom;
-	out_file << the_scan;
-	//out_file >> gridmap;
 
 };

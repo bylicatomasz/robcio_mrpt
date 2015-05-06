@@ -63,16 +63,17 @@ class CRobcioSLAM
 			void test();
 			CRawlog rawLog;
 			//COccupancyGridMap2D gridmap;
-			//CPointsMapPtr gridmapLoad;
+			CPointsMapPtr mainMap;
 			std::string currentDateTime();
 			CPointsMapPtr createEmptyMap();
 			void importFromCSVFile(CPointsMapPtr gridmapLoad);
-			void readDataScanFromCSV( std::string line,CPointsMapPtr gridmapLoad);
+			void readDataScanFromString( std::string line,CPointsMapPtr gridmapLoad);
 			void initFileGridExport();
 			void closeFileGridExport();
-			void readDataScanAndCreateMap(std::string line);
+			//void readDataScanAndCreateMap(std::string line);
 			CRawlog createRawlog();
-			CPointsMapPtr loadMapFromGrid();
+			CPointsMapPtr loadMapFromRawLog();
+			void alignICP(CSimplePointsMap		*mainMap,CSimplePointsMap *scanedMap);
 			//xRobcioWinWidgetsFrame form;
 		//*)
 

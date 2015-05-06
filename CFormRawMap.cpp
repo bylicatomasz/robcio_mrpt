@@ -1390,7 +1390,7 @@ void CFormRawMap::generateMapFromMapGrid(CPointsMapPtr thePntsMap,int color)
 
     // Load into the graphs:
     // ----------------------------------
-  //  plotMap->DelAllLayers(true,false);
+    plotMap->DelAllLayers(true,false);
 
     mpFXYVector *lyPoints = new mpFXYVector();
     mpFXYVector *lyPath   = new mpFXYVector();
@@ -1400,6 +1400,10 @@ void CFormRawMap::generateMapFromMapGrid(CPointsMapPtr thePntsMap,int color)
 		lyPoints->SetPen( wxPen(wxColour(0,0,255),0) );
 	}else if(color==2){
 		lyPoints->SetPen( wxPen(wxColour(25,225,11),0) );
+	}else if(color==3){
+		lyPoints->SetPen( wxPen(wxColour(255,255,0),0) );
+	}else if(color==4){
+		lyPoints->SetPen( wxPen(wxColour(204,0,104),0) );
 	}
     plotMap->AddLayer( lyPoints );
     plotMap->AddLayer( lyPath );

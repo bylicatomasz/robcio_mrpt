@@ -7,7 +7,7 @@
 
 namespace http = boost::network::http;
 
-
+void CALLBACK TimerProc(HWND hWnd, UINT nMsg, UINT nIDEvent, DWORD dwTime);
 //-----------------------------------------------------------------------------
 // wxStaticBitmapPopup
 //-----------------------------------------------------------------------------
@@ -25,7 +25,14 @@ struct webServiceListner;
 typedef http::server<webServiceListner> server;
 CRobcioSLAM *robcio;
 xRobcioWinWidgetsFrame				*theMainWindow = NULL;
-xRobcioWinWidgetsFrame *form;
+CFormRawMap *form;
+
+void CALLBACK TimerProc(HWND hWnd, UINT nMsg, UINT nIDEvent, DWORD dwTime)
+{
+
+	::form->generateMapFromMapGrid(::robcio->mainMap,1);
+	cout << "Timer dziala" << endl; //procedura timera
+}
 struct webServiceListner {
     void operator() (server::request const &request,
                      server::response &response) {
@@ -41,11 +48,11 @@ struct webServiceListner {
 		unsigned int port = request.source_port;
         std::ostringstream data;
 		std::ostringstream data2;
-
+		
 		data << "OK"<< "\n";
 		if(body_.empty()==false && body_.length()>10){
-			//::robcio->readDataScanFromCSV(urlDecode(body_).replace(0,8,""));
-		//	::xRobcioWinWidgetsFrame->OnRawMapReload();
+			::robcio->readDataScanFromString(urlDecode(body_).replace(0,8,""),::robcio->mainMap);
+			//::xRobcioWinWidgetsFrame->OnRawMapReload();
 			//::form->OnRawMapReload();
 		}
         response = server::response::stock_reply(
@@ -152,6 +159,7 @@ void xRobcioWinWidgetsFrame::OnRawMapOdo()
 {
 
 	 formRawMap = new CFormRawMap(this);
+	 form=formRawMap;
 	 //CRawlog rawlog = robcio.createRawlog();
 	  CRawlog rawlog ;
 	
@@ -194,8 +202,8 @@ void xRobcioWinWidgetsFrame::OnRawMapOdo()
 //	xRobcioWinWidgetsFrame test=this;
 
 	//
-		::form=this;
-		initWebService(&robcio);
+		//::form=this;
+		initRobcioParameter(&robcio);
 		  MyThread* t = new MyThread(this);
         wxThreadError err = t->Create();
  
@@ -242,18 +250,38 @@ void xRobcioWinWidgetsFrame::OnRawMapReload(wxCommandEvent& evt){
 		std::cout << "test\n";
 	 
 }
-void xRobcioWinWidgetsFrame::initWebService(CRobcioSLAM *rob){
+void xRobcioWinWidgetsFrame::testing(){
+
+}
+void xRobcioWinWidgetsFrame::initRobcioParameter(CRobcioSLAM *rob){
 
 	
 	std::cout << "starting first helper...\n";
 	::robcio=rob;
+	::robcio->mainMap=(::robcio->createEmptyMap());
 	::robcio->initFileGridExport();
-	CPointsMapPtr gridmapLoad=::robcio->loadMapFromGrid();
+	 UINT TimerId = SetTimer(NULL, 1, 3000, &TimerProc);
+
+	/*CPointsMapPtr gridmapLoad=::robcio->loadMapFromGrid();
 	CRawlog rawlog = robcio.rawLog;
-	formRawMap->generateMapFromMapGrid(gridmapLoad,1);
+	//formRawMap->generateMapFromMapGrid(gridmapLoad,1);
 	CPointsMapPtr mapGrid2=::robcio->createEmptyMap();
 	::robcio->importFromCSVFile(mapGrid2);
 	formRawMap->generateMapFromMapGrid(mapGrid2,2);
+
+	//CSimplePointsMap p=(CSimplePointsMap)gridmapLoad;
+	
+	
+	mapGrid2->save2D_to_text_file("11_scan_m1_22.txt");
+	//mapGrid2->
+	::robcio->testICP(gridmapLoad->getAsSimplePointsMap(),mapGrid2->getAsSimplePointsMap());
+	//formRawMap->generateMapFromMapGrid(gridmapLoad,3);
+	//formRawMap->generateMapFromMapGrid(mapGrid2,4);
+
+	
+	mapGrid2->save2D_to_text_file("11_scan_m2_22.txt");*/
+
+	//gridmapLoad->loadFromProbabilisticPosesAndObservations( *simple );
 	//::robcio->closeFileGridExport();
    // ::form=form;
 };
@@ -261,6 +289,8 @@ void xRobcioWinWidgetsFrame::initWebService(CRobcioSLAM *rob){
 
 xRobcioWinWidgetsFrame::~xRobcioWinWidgetsFrame()
 {
+	::robcio->closeFileGridExport();
+	KillTimer(NULL, 1);
 	//(*Destroy(xRawLogViewerFrame)
 	//*)
 

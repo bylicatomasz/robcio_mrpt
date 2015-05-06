@@ -123,8 +123,8 @@ private:
 	  CRobcioSLAM robcio;
 	  CFormRawMap                     *formRawMap ;
 	  void OnRawMapOdo();
-	  void initWebService(CRobcioSLAM *rob);
-
+	  void initRobcioParameter(CRobcioSLAM *rob);
+	  void testing();
   
 
 
