@@ -86,6 +86,7 @@ public:
     void OnbtnHelpClick(wxCommandEvent& event);
 	void generateMap(mrpt::slam::CRawlog rawlog);
 	void generateMapFromMapGrid(mrpt::slam::CPointsMapPtr gridmapLoad,int color);
+	void clearPlot();
 	//void generateMapFromMapGrid(mrpt::slam::CRawlog rawlog,mrpt::slam::CPointsMapPtr gridmapLoad);
     //*)
 //	void generateMapFromMapGridTest(mrpt::slam::CRawlog rawlog, mrpt::slam::COccupancyGridMap2D gridmapNew);

@@ -1238,6 +1238,11 @@ void CFormRawMap::OnbtnView3DClick(wxCommandEvent& event)
 void CFormRawMap::OnbtnHelpClick(wxCommandEvent& event)
 {
 }
+
+void CFormRawMap::clearPlot(){
+
+ plotMap->DelAllLayers(true,false);
+}
 void CFormRawMap::generateMapFromMapGrid(CPointsMapPtr thePntsMap,int color)
 {
 
@@ -1295,7 +1300,7 @@ void CFormRawMap::generateMapFromMapGrid(CPointsMapPtr thePntsMap,int color)
     robot_path.clear();
 
     // An (aprox) estimate of the final size of the map (great improve in speed!)
-	if (thePntsMap) thePntsMap->reserve( (thePntsMap->size()+1)*800 );
+	//if (thePntsMap) thePntsMap->reserve( (thePntsMap->size()+1)*800 );
 
 	/*
 	TTimeStamp	last_tim = INVALID_TIMESTAMP;
@@ -1390,7 +1395,7 @@ void CFormRawMap::generateMapFromMapGrid(CPointsMapPtr thePntsMap,int color)
 
     // Load into the graphs:
     // ----------------------------------
-    plotMap->DelAllLayers(true,false);
+   //
 
     mpFXYVector *lyPoints = new mpFXYVector();
     mpFXYVector *lyPath   = new mpFXYVector();

@@ -62,6 +62,7 @@ class CRobcioSLAM
 	   //(*Handlers(CRobcioSLAM)
 			void test();
 			CRawlog rawLog;
+			void testMapBuilderRBPF();
 			//COccupancyGridMap2D gridmap;
 			CPointsMapPtr mainMap;
 			std::string currentDateTime();
@@ -72,8 +73,17 @@ class CRobcioSLAM
 			void closeFileGridExport();
 			//void readDataScanAndCreateMap(std::string line);
 			CRawlog createRawlog();
-			CPointsMapPtr loadMapFromRawLog();
-			void alignICP(CSimplePointsMap		*mainMap,CSimplePointsMap *scanedMap);
+			CPointsMapPtr loadMap(string path);
+			CPointsMapPtr loadMapFromRawLog(string pathToRawLog);
+			void saveMap(CPointsMapPtr mapToSave,string path);
+			void testMapBuilderRBPF(CActionCollectionPtr action,CSensoryFramePtr observations,CSimpleMap &initialMap);
+			void testSLAM(string pathToRawLog,string pathToMainMap); 
+			//void saveMapToRawLog(CPointsMapPtr mapToSave);
+			void alignICP(CSimplePointsMap		*mainMap,CSimplePointsMap *scanedMap,float thresholdDist);
+			CSimpleMap createSimpleMapPointSLAM(string pathToRawLog);
+			void saveSimpleMap(CSimpleMap mapToSave,string path);
+			CSimpleMap loadSimpleMap(string path) ;
+			CPointsMapPtr testSimpleMap(string pathToRawLog,string pathToFile);
 			//xRobcioWinWidgetsFrame form;
 		//*)
 

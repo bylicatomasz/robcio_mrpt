@@ -125,7 +125,8 @@ private:
 	  void OnRawMapOdo();
 	  void initRobcioParameter(CRobcioSLAM *rob);
 	  void testing();
-  
+	  void testingLoadMap();
+	  void testingLoadSimpleMap();
 
 
   

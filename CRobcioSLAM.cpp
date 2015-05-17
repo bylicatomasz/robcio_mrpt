@@ -14,8 +14,8 @@
 #include <mrpt/topography.h>
 
 void CRobcioSLAM::test(){
-//	RobcioWinApp winapp;
-//	winapp.OnInit();
+	//	RobcioWinApp winapp;
+	//	winapp.OnInit();
 	printf("Test");
 };
 std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
@@ -81,18 +81,18 @@ CPointsMapPtr CRobcioSLAM::createEmptyMap() {
 	// Go: generate the map:
 
 	CMultiMetricMap			theMap;
-	
+
 
 	ifstream inputConfig( "c:\\Temp\\map.ini" );
 	std::string configMapStr;
 	for( std::string line; getline( inputConfig, line ); )
 	{
 		configMapStr+=line+"\n";
-	
+
 	}
 
-    // Create a memory "ini file" with the text in the window:
-    CConfigFileMemory       configSrc( CStringList( std::string(configMapStr.c_str()) ) );
+	// Create a memory "ini file" with the text in the window:
+	CConfigFileMemory       configSrc( CStringList( std::string(configMapStr.c_str()) ) );
 
 	TSetOfMetricMapInitializers		lstMaps;
 	lstMaps.loadFromConfigFile( configSrc, "map" );
@@ -104,41 +104,228 @@ CPointsMapPtr CRobcioSLAM::createEmptyMap() {
 		thePntsMap = theMap.m_pointsMaps[0];
 	else if (theMap.m_colourPointsMap.present())
 		thePntsMap = theMap.m_colourPointsMap;
-			return thePntsMap;
+
+
+
+	return thePntsMap;
 
 
 }
-CPointsMapPtr CRobcioSLAM::loadMapFromRawLog() { 
-	
-	string str="C:\\Temp\\RawLogTest.rawlog";
+void CRobcioSLAM::testMapBuilderRBPF(CActionCollectionPtr action,CSensoryFramePtr observations,CSimpleMap &initialMap){
+	// ---------------------------------
+	//		MapPDF opts
+	// ---------------------------------
+	CMetricMapBuilderRBPF::TConstructionOptions		rbpfMappingOptions;
+	string INI_FILENAME="C:\mrpt-1.0.2-new\mrpt-1.0.2\share\mrpt\config_files\rbpf-slam\gridmapping_RBPF_ICPbased_intel.ini";
+	rbpfMappingOptions.loadFromConfigFile(CConfigFile(INI_FILENAME),"MappingApplication");
+	rbpfMappingOptions.dumpToConsole();
+
+	// ---------------------------------
+	//		Constructor
+	// ---------------------------------
+	CMetricMapBuilderRBPF mapBuilder( rbpfMappingOptions );
+
+	// ---------------------------------
+	//   CMetricMapBuilder::TOptions
+	// ---------------------------------
+	mapBuilder.options.verbose					= true;
+	mapBuilder.options.enableMapUpdating		= true;
+	mapBuilder.options.debugForceInsertion		= false;
+
+	mapBuilder.initialize(initialMap);
+	mapBuilder.processActionObservation( *action, *observations );
+	mapBuilder.saveCurrentEstimationToImage("C:/Temp/estymate.bmp");
+	mapBuilder.saveCurrentPathEstimationToTextFile("C:/Temp/estymate.txt");
+
+	// Save the robot estimated pose for each step:
+	CPose3D   meanPose;
+	mapBuilder.getCurrentPoseEstimation()->getMean(meanPose);
+
+	CSimpleMap				finalMap;
+	// Save map:
+	mapBuilder.getCurrentlyBuiltMap(finalMap);
+
+
+}
+
+CPointsMapPtr CRobcioSLAM::loadMap(string path) { 
+
+	CPointsMapPtr mapToLoad;
+	CFileInputStream (path) >> mapToLoad;
+
+	return mapToLoad; 
+	//mapToSave->saveMetricMapRepresentationToFile("C:\\Temp\\testSaveRavlog.rawlog");
+
+}
+void CRobcioSLAM::saveMap(CPointsMapPtr mapToSave,string path) { 
+
+
+	CFileOutputStream (path) << mapToSave;
+
+}
+CSimpleMap CRobcioSLAM::loadSimpleMap(string path) { 
+
+	CSimpleMap mapToLoad;
+	CFileInputStream (path) >> mapToLoad;
+	return mapToLoad; 
+}
+void CRobcioSLAM::saveSimpleMap(CSimpleMap mapToSave,string path) { 
+	CFileOutputStream (path) << mapToSave;
+}
+CSimpleMap CRobcioSLAM::createSimpleMapPointSLAM(string pathToRawLog) { 
 	
 	CRawlog rawLogTest;
-	  size_t      decimate =1;
+	CSimpleMap simpleMap;
+	rawLogTest.loadFromRawLogFile(pathToRawLog);
 
-	rawLogTest.loadFromRawLogFile(str);
+	CPose2D     curPose(0,0,0);
+	size_t      i;
+	
+	CSensoryFramePtr observations;
+	CPosePDFGaussianPtr posePDFGaussian;
+	for (i=0; i<rawLogTest.size()-1;i++)
+	{
+		bool addNewPathEntry = false;
+
+
+		switch( rawLogTest.getType(i) )
+		{
+		case CRawlog::etActionCollection:
+			{
+				CActionCollectionPtr    acts = rawLogTest.getAsAction(i);
+				CPose2D                 poseIncrement;
+				bool                    poseIncrementLoaded = false;
+
+				for (size_t j=0;j<acts->size();j++)
+				{
+					CActionPtr act = acts->get(j);
+					if (act->GetRuntimeClass() == CLASS_ID( CActionRobotMovement2D ))
+					{
+						CActionRobotMovement2DPtr mov = CActionRobotMovement2DPtr( act );
+
+						// Load an odometry estimation, but only if it is the only movement
+						//  estimation source: any other may be a better one:
+						if ( !poseIncrementLoaded || mov->estimationMethod!= CActionRobotMovement2D::emOdometry )
+						{
+							poseIncrementLoaded=true;
+							mov->poseChange->getMean( poseIncrement );
+						}
+					}
+				}
+				curPose = curPose + poseIncrement; 
+				posePDFGaussian = CPosePDFGaussian::Create();
+				posePDFGaussian->mean = curPose;
+				simpleMap.insert(posePDFGaussian,observations);
+			}
+			break;
+		case CRawlog::etSensoryFrame:
+			{
+				
+
+			observations=rawLogTest.getAsObservations(i);
+			
+				
+			}
+			break;
+		case CRawlog::etObservation:
+			{
+
+			}
+			break;
+		}; // end switch
+
+		
+
+	}
+
+	return simpleMap;
+
+}
+CPointsMapPtr CRobcioSLAM::testSimpleMap(string pathToRawLog,string pathToFile){
+			CSimpleMap simpleMap= createSimpleMapPointSLAM(pathToRawLog);
+			saveSimpleMap(simpleMap,pathToFile);
+			simpleMap=loadSimpleMap(pathToFile) ;
+			CPointsMapPtr pointMap=createEmptyMap();
+			pointMap->loadFromSimpleMap(simpleMap);
+			return pointMap;
+}
+
+void CRobcioSLAM::testSLAM(string pathToRawLog,string pathToMainMap) { 
+
+	CActionCollectionPtr action;
+	CSensoryFramePtr observations;
+	
+	CPointsMapPtr mapMain=loadMap(pathToMainMap);
+	CRawlog rawLogTest;
+	size_t      decimate =1;
+//	CSimpleMap initialMap=(*mapMain).getAsSimplePointsMap();
+	rawLogTest.loadFromRawLogFile(pathToRawLog);
+
+
+	
+	// Go: generate the map:
+	size_t      i;
+	CPose2D     curPose(0,0,0);
+	for (i=0; i<rawLogTest.size()-1;i++)
+	{
+		bool addNewPathEntry = false;
+
+		switch( rawLogTest.getType(i) )
+		{
+		case CRawlog::etActionCollection:
+			{
+				CActionCollectionPtr    acts = rawLogTest.getAsAction(i);
+				
+
+			}
+			break;
+		case CRawlog::etSensoryFrame:
+			{
+				observations=rawLogTest.getAsObservations(i);
+
+			}
+			break;
+		case CRawlog::etObservation:
+			{
+
+			}
+			break;
+		}; // end switch
+
+	}
+
+}
+CPointsMapPtr CRobcioSLAM::loadMapFromRawLog(string pathToRawLog) { 
+
+
+
+	CRawlog rawLogTest;
+	size_t      decimate =1;
+
+	rawLogTest.loadFromRawLogFile(pathToRawLog);
 
 	rawLogTest.size();
 
 	// Go: generate the map:
-    size_t      i;
-    CPose2D     curPose(0,0,0);
+	size_t      i;
+	CPose2D     curPose(0,0,0);
 	TTimeStamp	last_tim = INVALID_TIMESTAMP;
 	CMultiMetricMap			theMap;
-	
+
 
 	ifstream inputConfig( "c:\\Temp\\map.ini" );
 	std::string configMapStr;
 	for( std::string line; getline( inputConfig, line ); )
 	{
 		configMapStr+=line+"\n";
-	
+
 	}
 
 
 
 
-    // Create a memory "ini file" with the text in the window:
-    CConfigFileMemory       configSrc( CStringList( std::string(configMapStr.c_str()) ) );
+	// Create a memory "ini file" with the text in the window:
+	CConfigFileMemory       configSrc( CStringList( std::string(configMapStr.c_str()) ) );
 
 	TSetOfMetricMapInitializers		lstMaps;
 	lstMaps.loadFromConfigFile( configSrc, "map" );
@@ -151,18 +338,18 @@ CPointsMapPtr CRobcioSLAM::loadMapFromRawLog() {
 	else if (theMap.m_colourPointsMap.present())
 		thePntsMap = theMap.m_colourPointsMap;
 
-		if (thePntsMap) {
-			thePntsMap->reserve( (rawLogTest.size()+1)*800 );
-		
-		
-		}
+	if (thePntsMap) {
+		thePntsMap->reserve( (rawLogTest.size()+1)*800 );
 
-	  for (i=0; i<rawLogTest.size()-1;i++)
-    {
-    	bool addNewPathEntry = false;
 
-    	switch( rawLogTest.getType(i) )
-        {
+	}
+
+	for (i=0; i<rawLogTest.size()-1;i++)
+	{
+		bool addNewPathEntry = false;
+
+		switch( rawLogTest.getType(i) )
+		{
 		case CRawlog::etActionCollection:
 			{
 				CActionCollectionPtr    acts = rawLogTest.getAsAction(i);
@@ -197,7 +384,7 @@ CPointsMapPtr CRobcioSLAM::loadMapFromRawLog() {
 				if (( (i>>1) % decimate)==0)
 				{
 					CPose3D		dumPose(curPose);
-					
+
 					rawLogTest.getAsObservations(i)->insertObservationsInto( &theMap, &dumPose );
 				}
 				addNewPathEntry=true;
@@ -222,13 +409,13 @@ CPointsMapPtr CRobcioSLAM::loadMapFromRawLog() {
 				addNewPathEntry=true;
 			}
 			break;
-        }; // end switch
-	
-	  }
-	
+		}; // end switch
 
-			std::cout<<"sss"; 
-			return thePntsMap;
+	}
+
+
+	std::cout<<"sss"; 
+	return thePntsMap;
 
 }
 void CRobcioSLAM::initFileGridExport(){
@@ -263,15 +450,15 @@ CRawlog CRobcioSLAM::createRawlog(){
 
 	/*
 	printf("\n importFromCSVFile \n");
-	
 
-	
+
+
 	ifstream input( "c:\\Temp\\logRecor_2014-08-10 22_28_01_.csv" );
 	initFileGridExport();
 	for( std::string line; getline( input, line ); )
 	{
 
-		readDataScanFromCSV(line);
+	readDataScanFromCSV(line);
 	}
 	return rawLog*/
 	return rawLog;
@@ -290,10 +477,10 @@ void CRobcioSLAM::readDataScanFromString(std::string line,CPointsMapPtr gridmapL
 
 	double overAll=360;
 	double radiusFromCompas=overAll*(newCompasRadius);
-	
+
 	double phiCompasRadius=DEG2RAD(radiusFromCompas);
-//	printf("phiCompasRadius: %f , radiusFromCompas: %f  \n",phiCompasRadius,radiusFromCompas);
-	
+	//	printf("phiCompasRadius: %f , radiusFromCompas: %f  \n",phiCompasRadius,radiusFromCompas);
+
 
 	vector<double> arrayXY=getCordinate((newDystance), DEG2RAD(overAll*(newCompasRadius)));
 	compasRadius=newCompasRadius;
@@ -305,19 +492,19 @@ void CRobcioSLAM::readDataScanFromString(std::string line,CPointsMapPtr gridmapL
 	cob.sensorLabel="RobcioSensor";
 	if(isStart){
 
-		
+
 		odometryIncrements=CPose2D(0,0,phiCompasRadius);		
-		
+
 		isStart=false;
 
 	}else if(actionStep=="Forward" ){
-	//}else if(actionStep=="Forward" && (actionStepLast=="Forward" || actionStepLast=="Back" || actionStepLast=="Stop")){
+		//}else if(actionStep=="Forward" && (actionStepLast=="Forward" || actionStepLast=="Back" || actionStepLast=="Stop")){
 		lastX+=arrayXY[0];
 		lastY+=arrayXY[1];
 		odometryIncrementsTest=CPose2D(arrayXY[0],arrayXY[1],phiCompasRadius);					
 
 		odometryIncrements=CPose2D(lastX,lastY,phiCompasRadius);					
-	//}else if(actionStep=="Back" && (actionStepLast=="Back" || actionStepLast=="Forward" || actionStepLast=="Stop")){
+		//}else if(actionStep=="Back" && (actionStepLast=="Back" || actionStepLast=="Forward" || actionStepLast=="Stop")){
 	}else if(actionStep=="Back" ){
 		lastX+=arrayXY[0];
 		lastY+=arrayXY[1];
@@ -332,27 +519,27 @@ void CRobcioSLAM::readDataScanFromString(std::string line,CPointsMapPtr gridmapL
 	}else{
 		odometryIncrementsTest=CPose2D(0,0,phiCompasRadius);	
 		odometryIncrements=CPose2D(lastX,lastY,phiCompasRadius);
-		
-	
+
+
 	}
 	actionStepLast=actionStep;
 
-	
-	
+
+
 	cob.odometry=odometryIncrements;		
-	
+
 	//printf("X: %f , Y: %f cord: %s \n",arrayXY[0],arrayXY[1],cob.odometry.asString().c_str());
 	cob.timestamp=mrpt::system::time_tToTimestamp(changeStatusArrayData[0]);
 	CObservationOdometryPtr odom = CObservationOdometryPtr(new CObservationOdometry(cob));
 
-	
+
 	//printf(" cord: %s %s %i \n",odometryIncrements.asString().c_str(),actionStep.c_str(),radiusFromCompas);
 
 	/*
 	*The scan
 	*/
 
-	
+
 	CObservation2DRangeScanPtr the_scan = CObservation2DRangeScan::Create();
 	the_scan->rightToLeft=false;
 	the_scan->aperture = DEG2RAD(120);
@@ -371,20 +558,20 @@ void CRobcioSLAM::readDataScanFromString(std::string line,CPointsMapPtr gridmapL
 		}
 
 	}
-	
-	
-	
+
+
+
 
 	CActionCollection    acts;
 	//CActionRobotMovement2D move;
 
-	
+
 	CActionRobotMovement2D	act;
 	CActionRobotMovement2D::TMotionModelOptions	opts;
 	opts.modelSelection = CActionRobotMovement2D::mmGaussian;
 
 	CPose2D  Aodom =cob.odometry- odoLast;
-					
+
 	act.computeFromOdometry(Aodom, opts);
 	act.timestamp = cob.timestamp;
 
@@ -392,7 +579,7 @@ void CRobcioSLAM::readDataScanFromString(std::string line,CPointsMapPtr gridmapL
 
 	odoLast=cob.odometry;
 	CSensoryFrame frame;
-	
+
 	frame.insert(the_scan);
 
 	CMetricMap *refMap =  (CMetricMap*)&gridmapLoad;
@@ -406,9 +593,13 @@ void CRobcioSLAM::readDataScanFromString(std::string line,CPointsMapPtr gridmapL
 	//out_file << odom;
 
 
+
+
 };
 
-void CRobcioSLAM::alignICP(CSimplePointsMap		*mainMap,CSimplePointsMap *scanedMap){
+void CRobcioSLAM::alignICP(CSimplePointsMap		*mainMap,CSimplePointsMap *scanedMap,float thresholdDist){
+
+
 
 	float					runningTime;
 	CICP::TReturnInfo		info;
@@ -416,35 +607,41 @@ void CRobcioSLAM::alignICP(CSimplePointsMap		*mainMap,CSimplePointsMap *scanedMa
 
 	int  ICP_method = (int) icpClassic;
 	// -----------------------------------------------------
-//	ICP.options.ICP_algorithm = icpLevenbergMarquardt;
+	ICP.options.ICP_algorithm = icpLevenbergMarquardt;
 	//ICP.options.ICP_algorithm = icpClassic;
-	ICP.options.ICP_algorithm = (TICPAlgorithm)ICP_method;
+	//ICP.options.ICP_algorithm = (TICPAlgorithm)ICP_method;
 
-	ICP.options.maxIterations			= 100;
-	//ICP.options.thresholdAng			= DEG2RAD(360.0f);
-	ICP.options.thresholdDist			= 0.75f;
-	ICP.options.ALFA					= 0.5f;
-	ICP.options.smallestThresholdDist	= 0.05f;
+	ICP.options.maxIterations			= 200;
+	ICP.options.onlyClosestCorrespondences=true;
+
+	ICP.options.thresholdAng			= DEG2RAD(10.0f);
+
+	ICP.options.thresholdDist			= thresholdDist;
+	ICP.options.ALFA					= 0.9f;
+	ICP.options.smallestThresholdDist	= 0.001;
 	ICP.options.doRANSAC = false;
 
 	ICP.options.dumpToConsole();
-	// -----------------------------------------------------
 
+
+
+	// -----------------------------------------------------
+	//CPose2D		transfer(1.2f,0.5f,(float)DEG2RAD(0.0f));
 	CPose2D		initialPose(0.0f,0.0f,(float)DEG2RAD(0.0f));
 
 
 
 	CPosePDFPtr pdf = ICP.Align(
-		mainMap,
 		scanedMap,
+		mainMap,
 		initialPose,
 		&runningTime,
 		(void*)&info);
 	printf("ICP run in %.02fms, %d iterations (%.02fms/iter), %.01f%% goodness\n -> ",
-			runningTime*1000,
-			info.nIterations,
-			runningTime*1000.0f/info.nIterations,
-			info.goodness*100 );
+		runningTime*1000,
+		info.nIterations,
+		runningTime*1000.0f/info.nIterations,
+		info.goodness*100 );
 	cout << "Mean of estimation: " << pdf->getMeanVal() << endl<< endl;
 	CPosePDFGaussian  gPdf;
 	gPdf.copyFrom(*pdf);
@@ -459,12 +656,24 @@ void CRobcioSLAM::alignICP(CSimplePointsMap		*mainMap,CSimplePointsMap *scanedMa
 
 	//cout << "Covariance of estimation (MATLAB format): " << endl << gPdf.cov.inMatlabFormat()  << endl;
 
-
-
+	double x=sqrt( gPdf.cov(0,0));
+	double y=sqrt( gPdf.cov(1,1) );
+	double rad= RAD2DEG(sqrt( gPdf.cov(2,2) ));
 	cout << "-> Saving transformed map to align as scan2_trans.txt" << endl;
 
-	(*scanedMap).changeCoordinatesReference( gPdf.mean );
-	
+	double dx=gPdf.mean.x();
+	double dy=gPdf.mean.y();
+	//CPose2D		transfer(1.2f,0.5f,(float)DEG2RAD(0.0f));
+	CPose2D test0(0.0f,0.0f,(float)DEG2RAD(0.0f));
+	CPose2D tran=test0 - gPdf.mean;
+	(*scanedMap).changeCoordinatesReference(tran);
+
+
+	//(*scanedMap).
+
+	//CPose2D		transfer(1.2f,0.5f,(float)DEG2RAD(0.0f));
+	//(*scanedMap).changeCoordinatesReference(transfer);
+
 
 
 };
