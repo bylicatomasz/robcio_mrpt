@@ -28,7 +28,7 @@
 #include <mrpt/gui/CDisplayWindow3D.h>
 #include <mrpt/slam/CRawlog.h>
 #include <mrpt/slam/CSimplePointsMap.h>
-
+using namespace std;
 class CFormRawMap: public wxDialog
 {
 public:
@@ -87,6 +87,7 @@ public:
 	void generateMap(mrpt::slam::CRawlog rawlog);
 	void generateMapFromMapGrid(mrpt::slam::CPointsMapPtr gridmapLoad,int color);
 	void clearPlot();
+	void generateMapFromVectorXY(vector<float>    Xs,vector<float> Ys,  vector<double>    pathX,vector<double>   pathY,wxColour colorMap,wxColour colorPath);
 	//void generateMapFromMapGrid(mrpt::slam::CRawlog rawlog,mrpt::slam::CPointsMapPtr gridmapLoad);
     //*)
 //	void generateMapFromMapGridTest(mrpt::slam::CRawlog rawlog, mrpt::slam::COccupancyGridMap2D gridmapNew);

@@ -1243,6 +1243,52 @@ void CFormRawMap::clearPlot(){
 
  plotMap->DelAllLayers(true,false);
 }
+void CFormRawMap::generateMapFromVectorXY(vector<float>    Xs,vector<float> Ys,  vector<double>    pathX,vector<double>   pathY,wxColour colorMap,wxColour colorPath)
+{
+
+	
+
+	 WX_START_TRY
+  
+    bool            abort = false;
+
+    
+    // Load into the graphs:
+    // ----------------------------------
+   //
+
+    mpFXYVector *lyPoints = new mpFXYVector();
+    mpFXYVector *lyPath   = new mpFXYVector();
+    lyPath->SetPen( wxPen(colorPath,2) );
+    lyPath->SetContinuity( true );
+	lyPoints->SetPen( wxPen(colorMap,0) );
+    plotMap->AddLayer( lyPoints );
+    plotMap->AddLayer( lyPath );
+    plotMap->EnableDoubleBuffer(true);
+
+    lyPath->SetData( pathX,pathY );
+
+	
+
+		lyPoints->SetData(Xs,Ys);
+		plotMap->LockAspect(false);
+		plotMap->Fit();      // Update the window to show the new data fitted.
+		plotMap->LockAspect(true);
+		plotMap->AddLayer( new mpScaleX() );
+		plotMap->AddLayer( new mpScaleY() );
+
+	
+
+	// Enable "results" buttons:
+	btnSaveTxt->Enable();
+	btnSave3D->Enable();
+	btnSavePath->Enable();
+	btnSaveTxt->Enable();
+	btnSaveObsPath->Enable();
+	btnView3D->Enable();
+
+    WX_END_TRY
+}
 void CFormRawMap::generateMapFromMapGrid(CPointsMapPtr thePntsMap,int color)
 {
 

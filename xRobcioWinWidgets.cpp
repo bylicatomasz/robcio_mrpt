@@ -251,7 +251,7 @@ void xRobcioWinWidgetsFrame::OnRawMapReload(wxCommandEvent& evt){
 		std::cout << "test\n";
 	 
 }
-void xRobcioWinWidgetsFrame::testing(){
+void xRobcioWinWidgetsFrame::testingAlignICP(){
 	string path="C:\\Robotics\\mrpt-1.2.1\\apps\\RobcioBrain\\gridMap\\";
 
 
@@ -262,24 +262,15 @@ void xRobcioWinWidgetsFrame::testing(){
 	
 	CPointsMapPtr partSmallMovedMap=::robcio->loadMapFromRawLog(path+"PartSmallMoved.rawlog");
 	//::dystance+=0.02f;
-
-
+	formRawMap->generateMapFromMapGrid(mainMap,1);
+	formRawMap->generateMapFromMapGrid(partSmallMovedMap,2);
 	::robcio->alignICP(mainMap->getAsSimplePointsMap(),partSmallMovedMap->getAsSimplePointsMap(),1.5f);
 
 
 
 	
-//	formRawMap->generateMapFromMapGrid(partSmallMap,2);
-	//formRawMap->generateMapFromMapGrid(partSmallMovedMap,4);
-//	::robcio->saveMapToRawLog(partSmallMovedMap);
-//	partSmallMovedMap->save2D_to_text_file("C:/Temp/beforeSave.txt");
-	
-//	partSmallMovedMap = ::robcio->loadMap("C:/Temp/mapPoinSaved.txt");
-	//partSmallMovedMap->save2D_to_text_file("C:/Temp/afterSave.txt");
-	mainMap->addFrom(*partSmallMovedMap);
-	::robcio->saveMap(mainMap,"C:/Temp/testPointMap.pointsmap");
-	formRawMap->generateMapFromMapGrid(mainMap,1);
-	//partSmallMovedMap->
+	formRawMap->generateMapFromMapGrid(partSmallMovedMap,3);
+
 }
 void xRobcioWinWidgetsFrame::testingLoadMap(){
 	string path="C:\\Robotics\\mrpt-1.2.1\\apps\\RobcioBrain\\gridMap\\";
@@ -295,11 +286,29 @@ void xRobcioWinWidgetsFrame::testingLoadMap(){
 	formRawMap->generateMapFromMapGrid(mainMap,1);
 }
 void xRobcioWinWidgetsFrame::testingLoadSimpleMap(){
-	string path="C:\\Robotics\\mrpt-1.2.1\\apps\\RobcioBrain\\gridMap\\";
-	formRawMap->clearPlot();
-	CPointsMapPtr mainMap=  ::robcio->testSimpleMap(path+"mainMap.rawlog","C:/Temp/testSimplMap.simplemap");
+	string path="C:/Robotics/mrpt-1.2.1/apps/RobcioBrain/gridMap/";
+	/*
+	//formRawMap->clearPlot();
+	//CPointsMapPtr mainMap=  ::robcio->testSimpleMap(path+"mainMap.rawlog","C:/Temp/testSimplMap.simplemap");
+	CSimpleMap simpleMapMain=::robcio->loadSimpleMap("C:/Temp/testSimplMap.simplemap");
+	CPointsMapPtr pointMapMain=::robcio->createEmptyMap();
 
-	formRawMap->generateMapFromMapGrid(mainMap,1);
+	pointMapMain->loadFromSimpleMap(simpleMapMain);
+	CSimpleMap simpleMap;*/
+	CSimpleMap simpleMap;
+	//createSimpleMapPointSLAM
+	//::robcio->createSimpleMapPointSLAM(path+"PartSmall.rawlog");
+	//::robcio->testKFSLAM2D(path+"PartSmallMovedBear2.rawlog","C:/Temp/testSimplMap.simplemap",simpleMap);
+		vector<float> mapX;
+	vector<float> mapY;
+	vector<double> pathX;
+	vector<double> pathY;
+	::robcio->testOtherSLAM(path+"PartSmallMovedBear2.rawlog",path+"mainMap.rawlog",&pathX,&pathY,&mapX,&mapY);
+	
+		formRawMap->generateMapFromVectorXY(mapX,mapY,pathX,pathY,wxColour(0,0,255),wxColour(0,0,11));
+	//CPointsMapPtr pointMapMain=::robcio->createEmptyMap();
+	//::robcio->importFromCSVFile(pointMapMain);
+
 }
 void xRobcioWinWidgetsFrame::initRobcioParameter(CRobcioSLAM *rob){
 
@@ -309,6 +318,7 @@ void xRobcioWinWidgetsFrame::initRobcioParameter(CRobcioSLAM *rob){
 	::robcio->mainMap=(::robcio->createEmptyMap());
 	::robcio->initFileGridExport();
 	testingLoadSimpleMap();
+	//testingLoadSimpleMap();
 	//testingLoadMap();
 	// UINT TimerId = SetTimer(NULL, 1, 1500, &TimerProc);
 

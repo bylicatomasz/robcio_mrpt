@@ -28,6 +28,7 @@ using namespace mrpt::utils;
 using namespace mrpt::slam;
 using namespace mrpt::poses;
 using namespace mrpt::system;
+using namespace mrpt::system;
 
 class CRobcioSLAM
 {
@@ -42,6 +43,7 @@ class CRobcioSLAM
 		string actionStepLast;
 		double lastX;
 		double lastY;
+		int lendmarkId;
 
 		
 		
@@ -76,14 +78,19 @@ class CRobcioSLAM
 			CPointsMapPtr loadMap(string path);
 			CPointsMapPtr loadMapFromRawLog(string pathToRawLog);
 			void saveMap(CPointsMapPtr mapToSave,string path);
-			void testMapBuilderRBPF(CActionCollectionPtr action,CSensoryFramePtr observations,CSimpleMap &initialMap);
-			void testSLAM(string pathToRawLog,string pathToMainMap); 
+			void testMapBuilderRBPF(string pathToRawLog,string pathToMainMap,CSimpleMap &finalMap);
+			void testSLAM(string pathToRawLog,string pathToMainMap,CSimpleMap &finalMap); 
 			//void saveMapToRawLog(CPointsMapPtr mapToSave);
 			void alignICP(CSimplePointsMap		*mainMap,CSimplePointsMap *scanedMap,float thresholdDist);
 			CSimpleMap createSimpleMapPointSLAM(string pathToRawLog);
 			void saveSimpleMap(CSimpleMap mapToSave,string path);
 			CSimpleMap loadSimpleMap(string path) ;
 			CPointsMapPtr testSimpleMap(string pathToRawLog,string pathToFile);
+			void testKFSLAM2D();
+			void testKFSLAM2D(string pathToRawLog,string pathToMainMap,CSimpleMap &finalMap);
+			void testOtherSLAM(string pathToSimpleMap,string pathToRawLog,vector<double> *poseX,vector<double> *poseY,vector<float> *poseMapX,vector<float> *poseMapY);
+			CMultiMetricMap	createMetricMap(string pathToMainMap);
+
 			//xRobcioWinWidgetsFrame form;
 		//*)
 

@@ -124,7 +124,7 @@ private:
 	  CFormRawMap                     *formRawMap ;
 	  void OnRawMapOdo();
 	  void initRobcioParameter(CRobcioSLAM *rob);
-	  void testing();
+	  void testingAlignICP();
 	  void testingLoadMap();
 	  void testingLoadSimpleMap();
 
