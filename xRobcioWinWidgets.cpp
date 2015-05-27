@@ -303,9 +303,10 @@ void xRobcioWinWidgetsFrame::testingLoadSimpleMap(){
 	vector<float> mapY;
 	vector<double> pathX;
 	vector<double> pathY;
-	::robcio->testOtherSLAM(path+"PartSmallMovedBear2.rawlog",path+"mainMap.rawlog",&pathX,&pathY,&mapX,&mapY);
-	
-		formRawMap->generateMapFromVectorXY(mapX,mapY,pathX,pathY,wxColour(0,0,255),wxColour(0,0,11));
+	///::robcio->testOtherSLAM(path+"PartSmallMovedBear2.rawlog",path+"mainMap.rawlog",&pathX,&pathY,&mapX,&mapY);
+	::robcio->testMapICP(path+"CprrectPartMapMoved.rawlog",path+"mainMap.rawlog",&mapX,&mapY,&pathX,&pathY);
+	//::robcio->importFromCSV(path+"mainMap.csv");
+		formRawMap->generateMapFromVectorXY(mapX,mapY,pathX,pathY,wxColour(0,0,255),wxColour(255,0,0));
 	//CPointsMapPtr pointMapMain=::robcio->createEmptyMap();
 	//::robcio->importFromCSVFile(pointMapMain);
 
@@ -317,6 +318,8 @@ void xRobcioWinWidgetsFrame::initRobcioParameter(CRobcioSLAM *rob){
 	::robcio=rob;
 	::robcio->mainMap=(::robcio->createEmptyMap());
 	::robcio->initFileGridExport();
+
+	
 	testingLoadSimpleMap();
 	//testingLoadSimpleMap();
 	//testingLoadMap();

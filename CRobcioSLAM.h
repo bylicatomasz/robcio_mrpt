@@ -87,10 +87,10 @@ class CRobcioSLAM
 			CSimpleMap loadSimpleMap(string path) ;
 			CPointsMapPtr testSimpleMap(string pathToRawLog,string pathToFile);
 			void testKFSLAM2D();
-			void testKFSLAM2D(string pathToRawLog,string pathToMainMap,CSimpleMap &finalMap);
+			void testMapICP(string pathToRawLog,string pathToMainMap,vector<float> *mapX,vector<float>  *mapY,vector<double> *pathX,vector<double>  *pathY);
 			void testOtherSLAM(string pathToSimpleMap,string pathToRawLog,vector<double> *poseX,vector<double> *poseY,vector<float> *poseMapX,vector<float> *poseMapY);
 			CMultiMetricMap	createMetricMap(string pathToMainMap);
-
+			void importFromCSV(std::string csvFile);
 			//xRobcioWinWidgetsFrame form;
 		//*)
 
