@@ -23,6 +23,7 @@
 #include <mrpt/system/filesystem.h>
 #include <mrpt/gui/CDisplayWindow3D.h>
 #include <mrpt/poses/CPose2D.h>
+#include <mrpt/poses/CPosePDFGaussian.h>
 #include <mrpt/bayes/CParticleFilter.h>
 #include <mrpt/random.h>
 
@@ -32,6 +33,7 @@
 #include <mrpt/slam/CSimpleMap.h>
 #include <mrpt/slam/COccupancyGridMap2D.h>
 #include <mrpt/slam/CMultiMetricMap.h>
+#include <mrpt/slam/CObservationOdometry.h>
 
 #include <mrpt/system/os.h>
 #include <mrpt/system/threads.h> // sleep()
@@ -48,6 +50,18 @@
 #include <mrpt/opengl/CEllipsoid.h>
 #include <mrpt/opengl/CDisk.h>
 
+
+#include <mrpt/utils/CFileOutputStream.h>
+#include <mrpt/utils/CFileGZOutputStream.h>
+#include <mrpt/utils/CFileInputStream.h>
+
+
+
+#include <boost/network/protocol/http/server.hpp>
+#include <string>
+#include <iostream>
+#include <thread>
+
 using namespace mrpt;
 using namespace mrpt::slam;
 using namespace mrpt::opengl;
@@ -60,9 +74,50 @@ using namespace mrpt::poses;
 using namespace mrpt::bayes;
 using namespace std;
 
-// Forward declaration:
+namespace http = boost::network::http;
+struct webServiceListner;
+typedef http::server<webServiceListner> server;
+
+
+//------------------------------------------------------
+//				Forward declaration
+//-------------------------------------------------------
 void do_pf_localization(const std::string &iniFilename,const std::string &cmdline_rawlog_file);
 void getGroundTruth( CPose2D &expectedPose, size_t rawlogEntry, const CMatrixDouble &GT, const TTimeStamp &cur_time);
+void readDataScanFromString(std::string lineData);
+void saveSimpleMap(CSimpleMap mapToSave,string path);
+void initFileExport();
+void exportSimpleMapToFile();
+void closeFileExport();
+void writeToCSV(string message);
+void importFromCSVFile();
+void printProgress(int *count);
+CSimpleMap createSimpleMapPointSLAM(string pathToRawLog);
+
+
+
+//------------------------------------------------------
+//--------------------Varibles--------------------------
+//------------------------------------------------------
+
+		bool isStart;
+		double compasRadius;
+		double dystance;
+		string actionStepLast;
+		double lastX;
+		double lastY;
+		int lendmarkId;
+		string file_csv;
+		string file_rawlog_output;
+		string file_input_csv="C:/Robotics/mrpt-1.2.1/apps/RobcioBrain/gridMap/PartSmallMoved.csv";
+		string file_log="C:\\Temp\\LogRobcioApp.log";
+		mrpt::system::TTimeStamp lastTimestamp;
+
+		
+		
+		CPose2D  odoLast;
+		CFileGZOutputStream	out_file;
+		CSensoryFrame	curSF;
 
 
 // ------------------------------------------------------
@@ -74,22 +129,11 @@ int main(int argc, char **argv)
 	{
 		string CONFIG_FILE="C:/Robotics/mrpt-1.2.1/apps/RobcioApp/config_files/localization_demo.ini";
 		string RAW_LOG="C:/Robotics/mrpt-1.2.1/apps/RobcioApp/config_files/CprrectPartMapMoved.rawlog";
-		printf(" pf-localization\n");
+		printf(" RobcioApp using as base code pf-localization\n");
 		printf(" MRPT C++ Library: %s - BUILD DATE %s\n", MRPT_getVersion().c_str(), MRPT_getCompilationDate().c_str());
 		printf("-------------------------------------------------------------------\n");
-		/*
-		// Process arguments:
-		if (argc!=2 && argc!=3)
-		{
-			printf("Usage: %s <config.ini> [rawlog_file.rawlog]\n\n",argv[0]);
-			return 1;
-		}
-
-		// Optional 2º param:
-		std::string cmdline_rawlog_file;
-		if (argc==3)
-			cmdline_rawlog_file=std::string(argv[2]);
-		*/
+	//	exportSimpleMapToFile();
+		cout << "End Run:\n" ;
 		do_pf_localization( CONFIG_FILE, RAW_LOG );
 		pause();
 		return 0;
@@ -108,6 +152,477 @@ int main(int argc, char **argv)
 		return -1;
 	}
 }
+
+
+//--------------------------------------------------------
+//Create webservice 
+//--------------------------------------------------------
+
+
+struct webServiceListner {
+    void operator() (server::request const &request,
+                     server::response &response) {
+        /*std::string ip = source(request);
+        response = server::response::stock_reply(
+            server::response::ok, std::string("Hello, ") + ip + "!");
+			*/
+
+		server::string_type ip = source(request);
+		server::string_type body_ = body(request);
+		
+		server::string_type method_ = method(request);
+		unsigned int port = request.source_port;
+        std::ostringstream data;
+		std::ostringstream data2;
+		
+		data << "OK"<< "\n";
+		if(body_.empty()==false && body_.length()>10){
+		//	::robcio->readDataScanFromString(urlDecode(body_).replace(0,8,""),::robcio->mainMap);
+			//::xRobcioWinWidgetsFrame->OnRawMapReload();
+			//::form->OnRawMapReload();
+		}
+        response = server::response::stock_reply(
+
+			server::response::ok, data.str());
+
+
+    }
+	void log(...) {
+        // do nothing
+    }
+	std::string urlDecode(std::string &SRC) {
+			std::string ret;
+			char ch;
+			int i, ii;
+			for (i=0; i<SRC.length(); i++) {
+				if (int(SRC[i])==37) {
+					sscanf(SRC.substr(i+1,2).c_str(), "%x", &ii);
+					ch=static_cast<char>(ii);
+					ret+=ch;
+					i=i+2;
+				} else {
+					ret+=SRC[i];
+				}
+			}
+			return (ret);
+		}
+};
+void startWebService(){
+  try {
+	  	char *address="127.0.0.1";
+	   char *port="5151";
+       webServiceListner handler;
+		server::options options(handler);
+		server server_(options.address(address).port(port));
+        //server server_(address, port, handler);
+        server_.run();
+    }
+    catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+   
+    }
+
+};
+std::thread helper1(startWebService);
+
+
+//--------------------------------------------------------
+//			Parse request webservice 
+//--------------------------------------------------------
+vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
+	std::stringstream ss(s);
+	std::string item;
+	while (std::getline(ss, item, delim)) {
+		elems.push_back(item);
+	}
+	return elems;
+}
+vector<std::string> split(const std::string &s, char delim) {
+	std::vector<std::string> elems;
+	split(s, delim, elems);
+	return elems;
+}
+string  currentDateTime() {
+	time_t     now = time(0);
+	struct tm  tstruct;
+	char       buf[80];
+	tstruct = *localtime(&now);
+	// Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
+	// for more information about date/time format
+	strftime(buf, sizeof(buf), "%Y-%m-%d-%H-%M-%S", &tstruct);
+
+	return buf;
+};
+vector<double> parseLineLog(string line){
+	vector<double> returnArr;	
+	vector<string> arrSplit = split(line, ';');
+	for(int i=0;i<arrSplit.size();i++){			
+		if(i==4){
+			continue;
+		}
+		replace(arrSplit[i].begin(),arrSplit[i].end(),',','.');				
+		double num=atof(arrSplit[i].c_str());
+		returnArr.push_back(num);
+
+
+	}
+	return returnArr;
+};
+string parseLineGetStat(string line){
+	vector<double> returnArr;	
+	vector<string> arrSplit = split(line, ';');
+	return arrSplit[4];
+};
+vector<double> getCordinate(double dystance, double radius){
+	double x = dystance * cos(radius);
+	double y = dystance * sin(radius);
+
+
+	vector<double>  arrayDouble;
+
+	arrayDouble.push_back(x);
+	arrayDouble.push_back(y);
+
+	return arrayDouble;
+
+};
+// ------------------------------------------------------
+//				SimpleMap
+// ------------------------------------------------------
+void exportSimpleMapToFile(){
+	importFromCSVFile();
+	CSimpleMap simpleMap=createSimpleMapPointSLAM(file_rawlog_output);
+	saveSimpleMap(simpleMap,"C:/Temp/newSimplemap.simplemap");
+};
+CSimpleMap loadSimpleMap(string path) { 
+
+	CSimpleMap mapToLoad;
+	CFileInputStream (path) >> mapToLoad;
+	return mapToLoad; 
+};
+void saveSimpleMap(CSimpleMap mapToSave,string path) { 
+	CFileOutputStream (path) << mapToSave;
+};
+CSimpleMap createSimpleMapPointSLAM(string pathToRawLog) { 
+	
+	CRawlog rawLogTest;
+	rawLogTest.loadFromRawLogFile(pathToRawLog);
+	CSimpleMap simpleMap;
+	
+	
+	CPose2D     curPose(0,0,0);
+	size_t      i;
+	int count=0;
+	CSensoryFramePtr observations;
+	CPosePDFGaussianPtr posePDFGaussian;
+	for (i=0; i<rawLogTest.size()-1;i++)
+	{
+		printProgress(&count);
+		bool addNewPathEntry = false;
+
+
+		switch( rawLogTest.getType(i) )
+		{
+		case CRawlog::etActionCollection:
+			{
+				CActionCollectionPtr    acts = rawLogTest.getAsAction(i);
+				CPose2D                 poseIncrement;
+				bool                    poseIncrementLoaded = false;
+
+				for (size_t j=0;j<acts->size();j++)
+				{
+					CActionPtr act = acts->get(j);
+					if (act->GetRuntimeClass() == CLASS_ID( CActionRobotMovement2D ))
+					{
+						CActionRobotMovement2DPtr mov = CActionRobotMovement2DPtr( act );
+
+						// Load an odometry estimation, but only if it is the only movement
+						//  estimation source: any other may be a better one:
+						if ( !poseIncrementLoaded || mov->estimationMethod!= CActionRobotMovement2D::emOdometry )
+						{
+							poseIncrementLoaded=true;
+							mov->poseChange->getMean( poseIncrement );
+						}
+					}
+				}
+				curPose = curPose + poseIncrement; 
+				posePDFGaussian = CPosePDFGaussian::Create();
+				posePDFGaussian->mean = curPose;
+				simpleMap.insert(posePDFGaussian,observations);
+			}
+			break;
+		case CRawlog::etSensoryFrame:
+			{
+				
+
+			observations=rawLogTest.getAsObservations(i);
+			
+				
+			}
+			break;
+		case CRawlog::etObservation:
+			{
+
+			}
+			break;
+		}; // end switch
+
+		
+
+	}
+
+	return simpleMap;
+
+}
+// ------------------------------------------------------
+//				Create RawLog
+// ------------------------------------------------------
+void printProgress(int *count){
+	(*count)++;
+	if((*count)%100==0){
+			cout << "Count: "<< (*count);
+	//	printf("\n Count is:  "+std::to_string((*count)));
+	}
+}
+void importFromCSVFile(){
+
+	printf("\n Start ImportFromCSVFile \n");
+	initFileExport();
+	ifstream input( file_input_csv );	
+	int count=0;
+	for( std::string line; getline( input, line ); )
+	{
+		printProgress(&count);
+		writeToCSV(line);
+		readDataScanFromString(line);
+	}
+	 closeFileExport();
+};
+void initFileExport(){
+	lendmarkId=0;
+	lastX=0;
+	lastY=0;
+	isStart=true;
+	compasRadius=0;
+	dystance=0;
+	odoLast=CPose2D(0,0,0);
+	file_rawlog_output="C:\\Temp\\robci_app_dataset_"+currentDateTime()+".rawlog";
+	file_csv="C:\\Temp\\robci_app_dataset_"+currentDateTime()+".csv";
+	int 			rawlog_GZ_compress_level  = 1; 
+	out_file.open( file_rawlog_output, rawlog_GZ_compress_level );
+
+};
+void closeFileExport(){	
+	out_file.close();
+};
+void readDataScanFromString(std::string lineData){
+
+
+	
+	//printf("\n readDataScanFromCSV \n");
+	CPose2D odometryIncrements;
+	CPose2D odometryIncrementsTest;
+	vector<double> changeStatusArrayData=parseLineLog(lineData);
+	string actionStep=parseLineGetStat(lineData); 
+	mrpt::system::TTimeStamp timestamp=mrpt::system::time_tToTimestamp(changeStatusArrayData[0]);
+	if((lastTimestamp+mrpt::system::secondsToTimestamp(1))>=timestamp){
+		timestamp=timestamp+(lastTimestamp-timestamp)+system::secondsToTimestamp(1);
+	
+	}
+	
+
+	double newCompasRadius=changeStatusArrayData[2];
+	double newDystance=changeStatusArrayData[1];
+
+	double overAll=360;
+	double radiusFromCompas=overAll*(newCompasRadius);
+
+	double phiCompasRadius=DEG2RAD(radiusFromCompas);
+	//	printf("phiCompasRadius: %f , radiusFromCompas: %f  \n",phiCompasRadius,radiusFromCompas);
+
+
+	vector<double> arrayXY=getCordinate((newDystance), DEG2RAD(overAll*(newCompasRadius)));
+	compasRadius=newCompasRadius;
+
+	//isStart=false;
+	//actionStepLast="Left";
+	//actionStep="Left";
+	CObservationOdometry cob;
+	cob.sensorLabel="RobcioSensor";
+	if(isStart){
+
+
+		odometryIncrements=CPose2D(0,0,phiCompasRadius);		
+
+		isStart=false;
+
+	}else if(actionStep=="Forward" ){
+		//}else if(actionStep=="Forward" && (actionStepLast=="Forward" || actionStepLast=="Back" || actionStepLast=="Stop")){
+		lastX+=arrayXY[0];
+		lastY+=arrayXY[1];
+		odometryIncrementsTest=CPose2D(arrayXY[0],arrayXY[1],phiCompasRadius);					
+
+		odometryIncrements=CPose2D(lastX,lastY,phiCompasRadius);					
+		//}else if(actionStep=="Back" && (actionStepLast=="Back" || actionStepLast=="Forward" || actionStepLast=="Stop")){
+	}else if(actionStep=="Back" ){
+		lastX+=arrayXY[0];
+		lastY+=arrayXY[1];
+		odometryIncrementsTest=CPose2D(arrayXY[0],arrayXY[1],phiCompasRadius);	
+		odometryIncrements=CPose2D(lastX,lastY,phiCompasRadius);	
+	}else if(actionStep=="Left" && actionStepLast=="Left"){
+		odometryIncrementsTest=CPose2D(0,0,phiCompasRadius);	
+		odometryIncrements=CPose2D(lastX,lastY,phiCompasRadius);
+	}else if(actionStep=="Right" && actionStepLast=="Right"){
+		odometryIncrementsTest=CPose2D(0,0,phiCompasRadius);	
+		odometryIncrements=CPose2D(lastX,lastY,phiCompasRadius);
+	}else{
+		odometryIncrementsTest=CPose2D(0,0,phiCompasRadius);	
+		odometryIncrements=CPose2D(lastX,lastY,phiCompasRadius);
+
+
+	}
+	actionStepLast=actionStep;
+
+
+
+	cob.odometry=odometryIncrements;		
+
+	//printf("X: %f , Y: %f cord: %s \n",arrayXY[0],arrayXY[1],cob.odometry.asString().c_str());
+	cob.timestamp=timestamp;
+	CObservationOdometryPtr odom = CObservationOdometryPtr(new CObservationOdometry(cob));
+
+
+	//printf(" cord: %s %s %i \n",odometryIncrements.asString().c_str(),actionStep.c_str(),radiusFromCompas);
+
+	/*
+	*The scan
+	*/
+
+	    CObservationBearingRange	m_lastObservation;
+		CObservationBearingRange obsRange;
+		obsRange.maxSensorDistance=2.5;
+		obsRange.timestamp = mrpt::system::time_tToTimestamp(changeStatusArrayData[0]);
+		
+				//obs.insertObservationInto(
+
+	CObservation2DRangeScanPtr the_scan = CObservation2DRangeScan::Create();
+	the_scan->rightToLeft=false;
+	the_scan->aperture = DEG2RAD(120);
+	the_scan->timestamp = timestamp;
+	//the_scan->sensorPose=cob.odometry; // this is not workin I get wrong map
+	the_scan->sensorLabel="RobcioSensor";
+	the_scan->maxRange=2.50f;
+
+	vector<CObservationBearingRange::TMeasurement> dataM;
+	for(int i=7;i<changeStatusArrayData.size();i++){
+		
+		CObservationBearingRange::TMeasurement messs;
+		messs.landmarkID=lendmarkId;
+		messs.pitch=0;
+		messs.range=changeStatusArrayData[i];
+		messs.yaw=DEG2RAD(90.0F-(30.0f +((i-7.0f))/2.0f));
+		//messs.yaw=DEG2RAD(((60.0F+changeStatusArrayData.size()-(i-7.0f))/2.0f));
+		m_lastObservation.sensedData.push_back(messs);
+
+		lendmarkId++;
+		//	m_lastObservation.sensedData[i].range=changeStatusArrayData[i];
+		//    m_lastObservation.sensedData[i].yaw=DEG2RAD((i-7)/2);
+
+		if(changeStatusArrayData[i]>the_scan->maxRange){
+			
+			the_scan->scan.push_back(changeStatusArrayData[i]);
+			the_scan->validRange.push_back(0);
+		}else{
+			the_scan->scan.push_back(changeStatusArrayData[i]);
+			the_scan->validRange.push_back(1);
+		}
+
+	}
+
+
+
+
+	CActionCollection    acts;
+	//CActionRobotMovement2D move;
+
+
+	CActionRobotMovement2D	act;
+	CActionRobotMovement2D::TMotionModelOptions	opts;
+	opts.modelSelection = CActionRobotMovement2D::mmGaussian;
+
+	CPose2D  Aodom =cob.odometry- odoLast;
+
+	act.computeFromOdometry(Aodom, opts);
+	act.timestamp = timestamp;
+
+	acts.insert(act);
+
+	odoLast=cob.odometry;
+	CSensoryFrame frame;
+
+
+	CObservationBearingRange *rang= new CObservationBearingRange(m_lastObservation);
+	rang->timestamp= timestamp;
+	frame.insert(the_scan);
+	frame.insert( CObservationBearingRangePtr(rang ));
+
+
+	out_file << frame;
+	out_file <<acts;
+	//out_file << odom;
+
+
+
+
+};
+//------------------------------------------------------
+//				Tools
+//-----------------------------------------------------
+
+void log(char *message){
+
+ ofstream myfile (file_log, ios::out | ios::app );
+  if (myfile.is_open())
+  {
+	time_t rawtime;
+	time (&rawtime);
+	string messageOutput;
+	messageOutput.append(ctime (&rawtime));
+	messageOutput.append(message);
+	messageOutput.append("\n");
+    myfile << messageOutput;    
+    myfile.close();
+  }
+};
+void log(string message){
+
+ ofstream myfile (file_log, ios::out | ios::app );
+  if (myfile.is_open())
+  {
+	time_t rawtime;
+	time (&rawtime);
+	string messageOutput;
+	messageOutput.append(ctime (&rawtime));
+	messageOutput.append(message);
+	messageOutput.append("\n");
+    myfile << messageOutput;    
+    myfile.close();
+  }
+};
+//------------------------------------------------------
+//				CSV File
+//-----------------------------------------------------
+
+void writeToCSV(string message){
+
+ ofstream myfile (file_csv, ios::out | ios::app );
+  if (myfile.is_open())
+  {
+    myfile << message;    
+    myfile.close();
+  }
+};
+
 
 
 // ------------------------------------------------------
