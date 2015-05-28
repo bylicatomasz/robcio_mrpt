@@ -62,6 +62,8 @@
 #include <iostream>
 #include <thread>
 
+#include "RobcioWinApp.h"
+
 using namespace mrpt;
 using namespace mrpt::slam;
 using namespace mrpt::opengl;
@@ -92,26 +94,36 @@ void closeFileExport();
 void writeToCSV(string message);
 void importFromCSVFile();
 void printProgress(int *count);
+void CALLBACK TimerProc(HWND hWnd, UINT nMsg, UINT nIDEvent, DWORD dwTime);
+void startWindowsForm();
 CSimpleMap createSimpleMapPointSLAM(string pathToRawLog);
+
+
 
 
 
 //------------------------------------------------------
 //--------------------Varibles--------------------------
 //------------------------------------------------------
-
+		
+		vector<double> mapX;
+		vector<double> mapY;
+		vector<double> pathX;
+		vector<double> pathY;
+		RobcioWinApp appWin;
 		bool isStart;
 		double compasRadius;
 		double dystance;
 		string actionStepLast;
 		double lastX;
 		double lastY;
+		int rowNumber;
 		int lendmarkId;
 		string file_csv;
 		string file_rawlog_output;
 		string file_input_csv="C:/Robotics/mrpt-1.2.1/apps/RobcioBrain/gridMap/PartSmallMoved.csv";
 		string file_log="C:\\Temp\\LogRobcioApp.log";
-		mrpt::system::TTimeStamp lastTimestamp;
+		mrpt::system::TTimeStamp startTimestamp;
 
 		
 		
@@ -132,11 +144,21 @@ int main(int argc, char **argv)
 		printf(" RobcioApp using as base code pf-localization\n");
 		printf(" MRPT C++ Library: %s - BUILD DATE %s\n", MRPT_getVersion().c_str(), MRPT_getCompilationDate().c_str());
 		printf("-------------------------------------------------------------------\n");
-	//	exportSimpleMapToFile();
-		cout << "End Run:\n" ;
-		do_pf_localization( CONFIG_FILE, RAW_LOG );
+		//do_pf_localization( CONFIG_FILE, RAW_LOG );
+		UINT TimerId = SetTimer(NULL, 1, 1500, &TimerProc);
+		exportSimpleMapToFile();	
+		startWindowsForm();
+			
+		
+		
+		
+	//	pause();
+		
+		// mrpt::system::sleep(1344400);
+
+		  mrpt::system::sleep(1344400);
 		pause();
-		return 0;
+		return 1;
 	}
 	catch (exception &e)
 	{
@@ -152,6 +174,7 @@ int main(int argc, char **argv)
 		return -1;
 	}
 }
+
 
 
 //--------------------------------------------------------
@@ -223,9 +246,28 @@ void startWebService(){
     }
 
 };
+
+
 std::thread helper1(startWebService);
+//------------------------------------------------------------
+//				WinForm
+//-----------------------------------------------------------
 
+void CALLBACK  TimerProc(HWND hWnd, UINT nMsg, UINT nIDEvent, DWORD dwTime)
+{
+	
+	//printf("Update map\n");
+	appWin.updateScan(&mapX,&mapY,&pathX,&pathY);
+	
+	//std::cout << "Timer dziala" << endl; //procedura timera
+};
 
+void startWindowsForm(){
+ 
+	
+		appWin.runWin(NULL,NULL);
+
+};
 //--------------------------------------------------------
 //			Parse request webservice 
 //--------------------------------------------------------
@@ -290,7 +332,9 @@ vector<double> getCordinate(double dystance, double radius){
 //				SimpleMap
 // ------------------------------------------------------
 void exportSimpleMapToFile(){
+	printf("Start exportSimpleMapToFile");
 	importFromCSVFile();
+	printf("\n Start createSimpleMapPointSLAM \n");
 	CSimpleMap simpleMap=createSimpleMapPointSLAM(file_rawlog_output);
 	saveSimpleMap(simpleMap,"C:/Temp/newSimplemap.simplemap");
 };
@@ -348,6 +392,8 @@ CSimpleMap createSimpleMapPointSLAM(string pathToRawLog) {
 				curPose = curPose + poseIncrement; 
 				posePDFGaussian = CPosePDFGaussian::Create();
 				posePDFGaussian->mean = curPose;
+
+				
 				simpleMap.insert(posePDFGaussian,observations);
 			}
 			break;
@@ -356,6 +402,7 @@ CSimpleMap createSimpleMapPointSLAM(string pathToRawLog) {
 				
 
 			observations=rawLogTest.getAsObservations(i);
+			
 			
 				
 			}
@@ -380,7 +427,7 @@ CSimpleMap createSimpleMapPointSLAM(string pathToRawLog) {
 void printProgress(int *count){
 	(*count)++;
 	if((*count)%100==0){
-			cout << "Count: "<< (*count);
+			cout << "\n Count: "<< (*count);
 	//	printf("\n Count is:  "+std::to_string((*count)));
 	}
 }
@@ -395,6 +442,7 @@ void importFromCSVFile(){
 		printProgress(&count);
 		writeToCSV(line);
 		readDataScanFromString(line);
+
 	}
 	 closeFileExport();
 };
@@ -405,6 +453,8 @@ void initFileExport(){
 	isStart=true;
 	compasRadius=0;
 	dystance=0;
+	startTimestamp=0;
+	rowNumber=0;
 	odoLast=CPose2D(0,0,0);
 	file_rawlog_output="C:\\Temp\\robci_app_dataset_"+currentDateTime()+".rawlog";
 	file_csv="C:\\Temp\\robci_app_dataset_"+currentDateTime()+".csv";
@@ -418,17 +468,18 @@ void closeFileExport(){
 void readDataScanFromString(std::string lineData){
 
 
-	
+	rowNumber++;
 	//printf("\n readDataScanFromCSV \n");
 	CPose2D odometryIncrements;
 	CPose2D odometryIncrementsTest;
 	vector<double> changeStatusArrayData=parseLineLog(lineData);
 	string actionStep=parseLineGetStat(lineData); 
-	mrpt::system::TTimeStamp timestamp=mrpt::system::time_tToTimestamp(changeStatusArrayData[0]);
-	if((lastTimestamp+mrpt::system::secondsToTimestamp(1))>=timestamp){
-		timestamp=timestamp+(lastTimestamp-timestamp)+system::secondsToTimestamp(1);
+	
+	if(startTimestamp==0){
+		startTimestamp=mrpt::system::time_tToTimestamp(changeStatusArrayData[0]);
 	
 	}
+	mrpt::system::TTimeStamp timestamp=startTimestamp+mrpt::system::secondsToTimestamp(rowNumber);
 	
 
 	double newCompasRadius=changeStatusArrayData[2];
@@ -440,9 +491,8 @@ void readDataScanFromString(std::string lineData){
 	double phiCompasRadius=DEG2RAD(radiusFromCompas);
 	//	printf("phiCompasRadius: %f , radiusFromCompas: %f  \n",phiCompasRadius,radiusFromCompas);
 
-
 	vector<double> arrayXY=getCordinate((newDystance), DEG2RAD(overAll*(newCompasRadius)));
-	compasRadius=newCompasRadius;
+   	compasRadius=newCompasRadius;
 
 	//isStart=false;
 	//actionStepLast="Left";
@@ -529,19 +579,23 @@ void readDataScanFromString(std::string lineData){
 		//    m_lastObservation.sensedData[i].yaw=DEG2RAD((i-7)/2);
 
 		if(changeStatusArrayData[i]>the_scan->maxRange){
-			
+
 			the_scan->scan.push_back(changeStatusArrayData[i]);
 			the_scan->validRange.push_back(0);
 		}else{
 			the_scan->scan.push_back(changeStatusArrayData[i]);
+			vector<double> arrayMapXY=getCordinate(messs.range,DEG2RAD(overAll*(newCompasRadius))+ messs.yaw);
+			mapX.push_back(odoLast.x()+arrayMapXY[0]);
+			mapY.push_back(odoLast.y()+arrayMapXY[1]);
 			the_scan->validRange.push_back(1);
 		}
 
 	}
 
+	
 
-
-
+	//pathX.push_back(odoLast.x());
+	//pathY.push_back(odoLast.y());
 	CActionCollection    acts;
 	//CActionRobotMovement2D move;
 
@@ -566,6 +620,8 @@ void readDataScanFromString(std::string lineData){
 	frame.insert(the_scan);
 	frame.insert( CObservationBearingRangePtr(rang ));
 
+	pathX.push_back(odoLast.x());
+	pathY.push_back(odoLast.y());
 
 	out_file << frame;
 	out_file <<acts;
@@ -622,6 +678,9 @@ void writeToCSV(string message){
     myfile.close();
   }
 };
+
+// 
+
 
 
 
