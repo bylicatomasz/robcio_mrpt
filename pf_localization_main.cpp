@@ -102,7 +102,7 @@ void getPointFromObject(	CActionCollectionPtr action,CSensoryFramePtr     observ
 void startParsingDataInBackground();
 void startWebService();
 void simpleReadRawlog(string path);
-void parseLineData(std::string lineData,	CActionCollectionPtr *out_action,CSensoryFramePtr     *out_observations,CObservationPtr 	 *out_obs);
+void parseLineData(std::string lineData,	CActionCollection *out_action,CSensoryFrame     *out_observations,CObservation 	 *out_obs);
 CSimpleMap createSimpleMapPointSLAM(string pathToRawLog);
 
 void putDataMapXY(double x,double y);
@@ -134,7 +134,7 @@ string file_rawlog_output;
 string file_input_csv="C:/Robotics/mrpt-1.2.1/apps/RobcioBrain/gridMap/PartSmallMoved.csv";
 string file_log="C:\\Temp\\LogRobcioApp.log";
 mrpt::system::TTimeStamp startTimestamp;
-
+CPose2D poseLastRobot;
 
 
 CPose2D  odoLast;
@@ -166,9 +166,10 @@ int main(int argc, char **argv)
 		printf("-------------------------------------------------------------------\n");
 		robcioWinPlot=new RobcioWinPlot();
 
+		importFromCSVFile();
 		//	UINT TimerId1 = SetTimer(NULL, NULL, 1, &TimerProcUpdateWindowScanView);
 		//	UINT TimerId2 = SetTimer(NULL, NULL, 1, &TimerProcUpdateSLAM);
-		simpleReadRawlog(RAW_LOG);
+		//simpleReadRawlog(RAW_LOG);
 		//do_pf_localization( CONFIG_FILE, RAW_LOG );
 
 		//exportSimpleMapToFile("C:/Robotics/mrpt-1.2.1/apps/RobcioBrain/gridMap/new_main_map/main_map.rawlog");	
@@ -233,6 +234,7 @@ string getData(){
 }
 void putDataMapXY(double x,double y){
 	if(isLockXY==false){
+		
 		isLockXY=true;
 		mapX.push_back(x);
 		mapY.push_back(y);		
@@ -341,10 +343,16 @@ void   TimerProcUpdateWindowScanView()
 {
 
 	while(isRunMain){
-
+		vector<double> mapXCopy(mapX);
+		vector<double> mapYCopy(mapY);
+		vector<double> pathXCopy(pathX);
+		vector<double> pathYCopy(pathY);
 		sleep(1000);
-		robcioWinPlot->updateScan(mapX,mapY,pathX,pathY,&isLockUpdate);
-
+		robcioWinPlot->updateScan(mapXCopy,mapYCopy,pathXCopy,pathYCopy,&isLockUpdate);
+		/*mapX.clear();
+		mapY.clear();
+		pathX.clear();
+		pathY.clear();*/
 	}
 
 };
@@ -426,11 +434,11 @@ void   TimerProcUpdateSLAM()
 		sleep(1000);
 		for(int i =0;i<100;i++){
 			string dataToAdd=getData();
-			CActionCollectionPtr *out_action;
-			CSensoryFramePtr     *out_observations;
-			CObservationPtr 	 *out_obs;
+			CActionCollection out_action;
+			CSensoryFrame     out_observations;
+			
 			if(!dataToAdd.empty()){
-				parseLineData(dataToAdd,	out_action,out_observations,out_obs);
+				parseLineData(dataToAdd,	&out_action,&out_observations,NULL);
 			}
 		}
 
@@ -444,10 +452,10 @@ void   TimerProcUpdateSLAM()
 // ------------------------------------------------------
 void exportSimpleMapToFile(string rawlog){
 	printf("Start exportSimpleMapToFile");
-	//importFromCSVFile();
-	printf("\n Start createSimpleMapPointSLAM \n");
-	CSimpleMap simpleMap=createSimpleMapPointSLAM(rawlog);
-	saveSimpleMap(simpleMap,"C:/Temp/newSimplemap.simplemap");
+	importFromCSVFile();
+//	printf("\n Start createSimpleMapPointSLAM \n");
+//	CSimpleMap simpleMap=createSimpleMapPointSLAM(rawlog);
+//	saveSimpleMap(simpleMap,"C:/Temp/newSimplemap.simplemap");
 };
 CSimpleMap loadSimpleMap(string path) { 
 
@@ -551,9 +559,9 @@ void importFromCSVFile(){
 	for( std::string line; getline( input, line ); )
 	{
 		printProgress(&count);
-		writeToCSV(line);
+	//	writeToCSV(line);
 		putData(line);
-
+		sleep(200);
 		//readDataScanFromString(line);
 
 	}
@@ -743,7 +751,7 @@ void readDataScanFromString(std::string lineData){
 
 };
 
-void parseLineData(std::string lineData,	CActionCollectionPtr *out_action,CSensoryFramePtr     *out_observations,CObservationPtr 	 *out_obs){
+void parseLineData(std::string lineData,	CActionCollection *out_action,CSensoryFrame     *out_observations,CObservation 	 *out_obs){
 
 
 	rowNumber++;
@@ -873,7 +881,7 @@ void parseLineData(std::string lineData,	CActionCollectionPtr *out_action,CSenso
 
 	//pathX.push_back(odoLast.x());
 	//pathY.push_back(odoLast.y());
-	CActionCollectionPtr    acts;
+	CActionCollection    acts;
 	//CActionRobotMovement2D move;
 
 
@@ -886,16 +894,16 @@ void parseLineData(std::string lineData,	CActionCollectionPtr *out_action,CSenso
 	act.computeFromOdometry(Aodom, opts);
 	act.timestamp = timestamp;
 
-	acts->insert(act);
+	acts.insert(act);
 
 	odoLast=cob.odometry;
-	CSensoryFramePtr frame;
+	CSensoryFrame frame;
 
 
 	CObservationBearingRange *rang= new CObservationBearingRange(m_lastObservation);
 	rang->timestamp= timestamp;
-	frame->insert(the_scan);
-	frame->insert( CObservationBearingRangePtr(rang ));
+	frame.insert(the_scan);
+	frame.insert( CObservationBearingRangePtr(rang ));
 
 
 	putDataPathXY(odoLast.x(),odoLast.y());	
@@ -1786,7 +1794,7 @@ void do_pf_localization(const std::string &ini_fil, const std::string &cmdline_r
 
 
 
-CPose2D poseLastRobot;
+
 void getPointFromObject(	CActionCollectionPtr action,CSensoryFramePtr     observations,CObservationPtr 	 obs){
 	CPose2D pose2d;
 	CActionRobotMovement2DPtr obs2 = action->getActionByClass<CActionRobotMovement2D>();
