@@ -19,8 +19,12 @@ class RobcioWinFrame : public wxFrame
 private:
 	mpWindow* plotMap;
 public:
-	std::vector<float> dupa ;
-	//vector<float> dupa;
-    RobcioWinFrame(const wxString& title);
-	void generateMapFromVectorXY(vector<double>    Xs,vector<double> Ys,  vector<double>    pathX,vector<double>   pathY,wxColour colorMap,wxColour colorPath);
+	
+	
+    RobcioWinFrame(const wxString& title,wxWindow *parent);
+	void initMap();
+	void generateMapFromVectorXY(vector<double>    Xs,vector<double> Ys,  vector<double>    pathX,vector<double>   pathY,wxColour colorMap,wxColour colorPath,bool*lock);
+	mpFXYVector *lyPoints;
+    mpFXYVector *lyPath  ;
+	long updateCount;
 };
