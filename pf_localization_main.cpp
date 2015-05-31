@@ -103,12 +103,17 @@ void startParsingDataInBackground();
 void startWebService();
 void simpleReadRawlog(string path);
 void parseLineData(std::string lineData,	CActionCollection *out_action,CSensoryFrame     *out_observations,CObservation 	 *out_obs);
+
 CSimpleMap createSimpleMapPointSLAM(string pathToRawLog);
 
 void putDataMapXY(double x,double y);
 void putDataPathXY(double x,double y);
 void putData(string data);
 string getData();
+vector<double> getDataPathY();
+vector<double> getDataPathX();
+vector<double> getDataMapY();
+vector<double> getDataMapX();
 
 
 
@@ -144,6 +149,7 @@ bool isLock=false;
 bool isLockXY=false;
 bool isLockUpdate=false;
 bool isRunMain=true;
+int randomMax=100;
 //------------------------------------------------------------
 //				Thread 
 //------------------------------------------------------------
@@ -208,6 +214,8 @@ void putData(string data){
 		isLock=false;
 		return;
 	}else{	
+		int maxRand=rand()%randomMax;
+		sleep(maxRand);
 		putData(data);
 	}
 
@@ -225,11 +233,27 @@ string getData(){
 		isLock=false;	
 		return "";
 	}else{
-
+		int maxRand=rand()%randomMax;
+		sleep(maxRand);
 		return getData();
 	}
 
 
+
+}
+void putDataPathXY(double x,double y){
+	if(isLockXY==false){
+		
+		isLockXY=true;
+		pathX.push_back(x);
+		pathY.push_back(y);		
+		isLockXY=false;
+		return;
+	}else{	
+		int maxRand=rand()%randomMax;
+		sleep(maxRand);
+		return putDataPathXY(x,y);
+	}
 
 }
 void putDataMapXY(double x,double y){
@@ -241,24 +265,67 @@ void putDataMapXY(double x,double y){
 		isLockXY=false;
 		return;
 	}else{	
-		putDataMapXY(x,y);
+		int maxRand=rand()%randomMax;
+		sleep(maxRand);
+		return putDataMapXY(x,y);
 	}
 
 }
-void putDataPathXY(double x,double y){
+vector<double> getDataMapX(){
 	if(isLockXY==false){
+		
 		isLockXY=true;
-		pathX.push_back(x);
-		pathY.push_back(y);		
+		vector<double> mapXCopy(mapX);
+	//	mapX.clear();
 		isLockXY=false;
-		return;
+		return mapXCopy;
+	}else{
+		int maxRand=rand()%randomMax;
+		sleep(maxRand);
+		return getDataMapX();
+	}
+
+}
+vector<double> getDataMapY(){
+	if(isLockXY==false){
+		
+		isLockXY=true;
+		vector<double> mapYCopy(mapY);;
+	//	mapY.clear();
+		isLockXY=false;
+		return mapYCopy;
 	}else{	
-		putDataPathXY(x,y);
+		return getDataMapY();
 	}
 
 }
 
+vector<double> getDataPathX(){
+	if(isLockXY==false){
+		
+		isLockXY=true;
+		vector<double> pathXCopy(pathX);
+	//	pathX.clear();
+		isLockXY=false;
+		return pathXCopy;
+	}else{	
+		return getDataPathX();
+	}
 
+}
+vector<double> getDataPathY(){
+	if(isLockXY==false){
+		
+		isLockXY=true;
+		vector<double> pathYCopy(pathY);
+	//	pathY.clear();
+		isLockXY=false;
+		return pathYCopy;
+	}else{	
+		return getDataPathY();
+	}
+
+}
 
 //--------------------------------------------------------
 //			Create webservice 
@@ -343,16 +410,15 @@ void   TimerProcUpdateWindowScanView()
 {
 
 	while(isRunMain){
-		vector<double> mapXCopy(mapX);
-		vector<double> mapYCopy(mapY);
-		vector<double> pathXCopy(pathX);
-		vector<double> pathYCopy(pathY);
-		sleep(1000);
-		robcioWinPlot->updateScan(mapXCopy,mapYCopy,pathXCopy,pathYCopy,&isLockUpdate);
-		/*mapX.clear();
-		mapY.clear();
-		pathX.clear();
-		pathY.clear();*/
+
+		sleep(1323);
+	//	robcioWinPlot->updateScan(mapXCopy,mapYCopy,pathXCopy,pathYCopy,&isLockUpdate);
+		
+		vector<double> mX=getDataMapX();
+		vector<double> mY=getDataMapY();
+		vector<double> pX=getDataPathX();
+		vector<double> pY=getDataPathY();
+		robcioWinPlot->updateScan(mX,mY,pX,pY,false);
 	}
 
 };
