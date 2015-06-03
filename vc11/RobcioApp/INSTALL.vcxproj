@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="Windows-1252"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{9BD2F67F-58E9-4868-BC20-DEF8B78598CB}</ProjectGUID>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>INSTALL</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType></ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType></ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType></ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType></ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+    <PropertyGroup>
+      <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Robotics\mrpt-1.2.1\otherlibs\eigen3;C:\Robotics\mrpt-1.2.1\otherlibs\eigen3\unsupported;C:\Robotics\opencv\bin;C:\Robotics\opencv\sources\include;C:\Robotics\opencv\sources\include\opencv;C:\Robotics\opencv\sources\modules\core\include;C:\Robotics\opencv\sources\modules\flann\include;C:\Robotics\opencv\sources\modules\imgproc\include;C:\Robotics\opencv\sources\modules\highgui\include;C:\Robotics\opencv\sources\modules\features2d\include;C:\Robotics\opencv\sources\modules\calib3d\include;C:\Robotics\opencv\sources\modules\ml\include;C:\Robotics\opencv\sources\modules\video\include;C:\Robotics\opencv\sources\modules\legacy\include;C:\Robotics\opencv\sources\modules\objdetect\include;C:\Robotics\opencv\sources\modules\photo\include;C:\Robotics\opencv\sources\modules\gpu\include;C:\Robotics\opencv\sources\modules\ocl\include;C:\Robotics\opencv\sources\modules\nonfree\include;C:\Robotics\opencv\sources\modules\contrib\include;C:\Robotics\opencv\sources\modules\stitching\include;C:\Robotics\opencv\sources\modules\superres\include;C:\Robotics\opencv\sources\modules\ts\include;C:\Robotics\opencv\sources\modules\videostab\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavcodec;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavformat;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libswscale;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\mswd;C:\Robotics\wxWidgets-2.8.12\include;C:\Robotics\mrpt-1.2.1\.;C:\Robotics\mrpt-1.2.1\vc11\include\mrpt-config\win32;C:\Robotics\mrpt-1.2.1\otherlibs\wxThings;C:\Robotics\mrpt-1.2.1\libs\slam\include;C:\Robotics\mrpt-1.2.1\libs\gui\include;C:\Robotics\mrpt-1.2.1\libs\topography\include;C:\Robotics\mrpt-1.2.1\libs\bayes\include;C:\Robotics\mrpt-1.2.1\libs\graphs\include;C:\Robotics\mrpt-1.2.1\libs\vision\include;C:\Robotics\mrpt-1.2.1\libs\scanmatching\include;C:\Robotics\mrpt-1.2.1\libs\maps\include;C:\Robotics\mrpt-1.2.1\libs\obs\include;C:\Robotics\mrpt-1.2.1\libs\opengl\include;C:\Robotics\mrpt-1.2.1\libs\base\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -DBUILD_TYPE=$(Configuration) -P cmake_install.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Robotics\mrpt-1.2.1\otherlibs\eigen3;C:\Robotics\mrpt-1.2.1\otherlibs\eigen3\unsupported;C:\Robotics\opencv\bin;C:\Robotics\opencv\sources\include;C:\Robotics\opencv\sources\include\opencv;C:\Robotics\opencv\sources\modules\core\include;C:\Robotics\opencv\sources\modules\flann\include;C:\Robotics\opencv\sources\modules\imgproc\include;C:\Robotics\opencv\sources\modules\highgui\include;C:\Robotics\opencv\sources\modules\features2d\include;C:\Robotics\opencv\sources\modules\calib3d\include;C:\Robotics\opencv\sources\modules\ml\include;C:\Robotics\opencv\sources\modules\video\include;C:\Robotics\opencv\sources\modules\legacy\include;C:\Robotics\opencv\sources\modules\objdetect\include;C:\Robotics\opencv\sources\modules\photo\include;C:\Robotics\opencv\sources\modules\gpu\include;C:\Robotics\opencv\sources\modules\ocl\include;C:\Robotics\opencv\sources\modules\nonfree\include;C:\Robotics\opencv\sources\modules\contrib\include;C:\Robotics\opencv\sources\modules\stitching\include;C:\Robotics\opencv\sources\modules\superres\include;C:\Robotics\opencv\sources\modules\ts\include;C:\Robotics\opencv\sources\modules\videostab\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavcodec;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavformat;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libswscale;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\mswd;C:\Robotics\wxWidgets-2.8.12\include;C:\Robotics\mrpt-1.2.1\.;C:\Robotics\mrpt-1.2.1\vc11\include\mrpt-config\win32;C:\Robotics\mrpt-1.2.1\otherlibs\wxThings;C:\Robotics\mrpt-1.2.1\libs\slam\include;C:\Robotics\mrpt-1.2.1\libs\gui\include;C:\Robotics\mrpt-1.2.1\libs\topography\include;C:\Robotics\mrpt-1.2.1\libs\bayes\include;C:\Robotics\mrpt-1.2.1\libs\graphs\include;C:\Robotics\mrpt-1.2.1\libs\vision\include;C:\Robotics\mrpt-1.2.1\libs\scanmatching\include;C:\Robotics\mrpt-1.2.1\libs\maps\include;C:\Robotics\mrpt-1.2.1\libs\obs\include;C:\Robotics\mrpt-1.2.1\libs\opengl\include;C:\Robotics\mrpt-1.2.1\libs\base\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -DBUILD_TYPE=$(Configuration) -P cmake_install.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Robotics\mrpt-1.2.1\otherlibs\eigen3;C:\Robotics\mrpt-1.2.1\otherlibs\eigen3\unsupported;C:\Robotics\opencv\bin;C:\Robotics\opencv\sources\include;C:\Robotics\opencv\sources\include\opencv;C:\Robotics\opencv\sources\modules\core\include;C:\Robotics\opencv\sources\modules\flann\include;C:\Robotics\opencv\sources\modules\imgproc\include;C:\Robotics\opencv\sources\modules\highgui\include;C:\Robotics\opencv\sources\modules\features2d\include;C:\Robotics\opencv\sources\modules\calib3d\include;C:\Robotics\opencv\sources\modules\ml\include;C:\Robotics\opencv\sources\modules\video\include;C:\Robotics\opencv\sources\modules\legacy\include;C:\Robotics\opencv\sources\modules\objdetect\include;C:\Robotics\opencv\sources\modules\photo\include;C:\Robotics\opencv\sources\modules\gpu\include;C:\Robotics\opencv\sources\modules\ocl\include;C:\Robotics\opencv\sources\modules\nonfree\include;C:\Robotics\opencv\sources\modules\contrib\include;C:\Robotics\opencv\sources\modules\stitching\include;C:\Robotics\opencv\sources\modules\superres\include;C:\Robotics\opencv\sources\modules\ts\include;C:\Robotics\opencv\sources\modules\videostab\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavcodec;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavformat;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libswscale;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\mswd;C:\Robotics\wxWidgets-2.8.12\include;C:\Robotics\mrpt-1.2.1\.;C:\Robotics\mrpt-1.2.1\vc11\include\mrpt-config\win32;C:\Robotics\mrpt-1.2.1\otherlibs\wxThings;C:\Robotics\mrpt-1.2.1\libs\slam\include;C:\Robotics\mrpt-1.2.1\libs\gui\include;C:\Robotics\mrpt-1.2.1\libs\topography\include;C:\Robotics\mrpt-1.2.1\libs\bayes\include;C:\Robotics\mrpt-1.2.1\libs\graphs\include;C:\Robotics\mrpt-1.2.1\libs\vision\include;C:\Robotics\mrpt-1.2.1\libs\scanmatching\include;C:\Robotics\mrpt-1.2.1\libs\maps\include;C:\Robotics\mrpt-1.2.1\libs\obs\include;C:\Robotics\mrpt-1.2.1\libs\opengl\include;C:\Robotics\mrpt-1.2.1\libs\base\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -DBUILD_TYPE=$(Configuration) -P cmake_install.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Robotics\mrpt-1.2.1\otherlibs\eigen3;C:\Robotics\mrpt-1.2.1\otherlibs\eigen3\unsupported;C:\Robotics\opencv\bin;C:\Robotics\opencv\sources\include;C:\Robotics\opencv\sources\include\opencv;C:\Robotics\opencv\sources\modules\core\include;C:\Robotics\opencv\sources\modules\flann\include;C:\Robotics\opencv\sources\modules\imgproc\include;C:\Robotics\opencv\sources\modules\highgui\include;C:\Robotics\opencv\sources\modules\features2d\include;C:\Robotics\opencv\sources\modules\calib3d\include;C:\Robotics\opencv\sources\modules\ml\include;C:\Robotics\opencv\sources\modules\video\include;C:\Robotics\opencv\sources\modules\legacy\include;C:\Robotics\opencv\sources\modules\objdetect\include;C:\Robotics\opencv\sources\modules\photo\include;C:\Robotics\opencv\sources\modules\gpu\include;C:\Robotics\opencv\sources\modules\ocl\include;C:\Robotics\opencv\sources\modules\nonfree\include;C:\Robotics\opencv\sources\modules\contrib\include;C:\Robotics\opencv\sources\modules\stitching\include;C:\Robotics\opencv\sources\modules\superres\include;C:\Robotics\opencv\sources\modules\ts\include;C:\Robotics\opencv\sources\modules\videostab\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavcodec;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavformat;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libswscale;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\mswd;C:\Robotics\wxWidgets-2.8.12\include;C:\Robotics\mrpt-1.2.1\.;C:\Robotics\mrpt-1.2.1\vc11\include\mrpt-config\win32;C:\Robotics\mrpt-1.2.1\otherlibs\wxThings;C:\Robotics\mrpt-1.2.1\libs\slam\include;C:\Robotics\mrpt-1.2.1\libs\gui\include;C:\Robotics\mrpt-1.2.1\libs\topography\include;C:\Robotics\mrpt-1.2.1\libs\bayes\include;C:\Robotics\mrpt-1.2.1\libs\graphs\include;C:\Robotics\mrpt-1.2.1\libs\vision\include;C:\Robotics\mrpt-1.2.1\libs\scanmatching\include;C:\Robotics\mrpt-1.2.1\libs\maps\include;C:\Robotics\mrpt-1.2.1\libs\obs\include;C:\Robotics\mrpt-1.2.1\libs\opengl\include;C:\Robotics\mrpt-1.2.1\libs\base\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -DBUILD_TYPE=$(Configuration) -P cmake_install.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\CMakeFiles\71494ff7987aaf5081485cbfa92f685c\INSTALL_force.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+cd .
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:/Robotics/mrpt-1.2.1/vc11/CMakeFiles/71494ff7987aaf5081485cbfa92f685c/INSTALL_force.rule;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Robotics\mrpt-1.2.1\vc11\apps\RobcioApp\CMakeFiles\INSTALL_force</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+cd .
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:/Robotics/mrpt-1.2.1/vc11/CMakeFiles/71494ff7987aaf5081485cbfa92f685c/INSTALL_force.rule;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Robotics\mrpt-1.2.1\vc11\apps\RobcioApp\CMakeFiles\INSTALL_force</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
+cd .
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:/Robotics/mrpt-1.2.1/vc11/CMakeFiles/71494ff7987aaf5081485cbfa92f685c/INSTALL_force.rule;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Robotics\mrpt-1.2.1\vc11\apps\RobcioApp\CMakeFiles\INSTALL_force</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
+cd .
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:/Robotics/mrpt-1.2.1/vc11/CMakeFiles/71494ff7987aaf5081485cbfa92f685c/INSTALL_force.rule;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Robotics\mrpt-1.2.1\vc11\apps\RobcioApp\CMakeFiles\INSTALL_force</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:/Robotics/mrpt-1.2.1/vc11/apps/RobcioApp/ALL_BUILD.vcxproj">
+      <Project>BE663033-33E3-4B6A-98E4-B6E5B4BC1841</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

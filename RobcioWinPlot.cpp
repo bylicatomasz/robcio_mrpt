@@ -1,5 +1,5 @@
 #include "RobcioWinPlot.h"
-
+#include "RobcioData.h"
 using namespace std;
 using namespace mrpt::gui;
 
@@ -11,30 +11,42 @@ int sizeY=500;
 
 
 using namespace std;
-RobcioWinPlot::RobcioWinPlot()
+RobcioWinPlot::RobcioWinPlot(RobcioData *robcioDataArg)
 	
 {
-	
+	isReady=false;
+	this->robcioData=robcioDataArg;
 	initPlot();
 
 };
 void RobcioWinPlot::initPlot(){
 		plot=new CDisplayWindowPlots ("View Scane Range",sizeX,sizeY);
+		
+		isReady=true;
+
+		
+		
+		
+}
+
+void RobcioWinPlot::updateScan(){
+	if(isReady && plot->isOpen()){
+		plot->axis_fit(true);
+		vector<double> mX=robcioData->getDataMapX();
+		vector<double> mY=robcioData->getDataMapY();
+		vector<double> pX=robcioData->getDataPathX();
+		vector<double> pY=robcioData->getDataPathY();
+		if(mX.size()==mY.size() && pX.size()==pY.size()){
+			updateScan(mX,mY,pX,pY,false);
+		}
+	}
 	
 		
 }
 void RobcioWinPlot:: updateScan(vector<double>    Xs,vector<double> Ys,  vector<double>    pathX,vector<double>   pathY,bool *lock )
 {
-	//if(*lock==false){
-	//	*lock=true;
+		
 		plot->plot(Xs,Ys,"b.","plotXY");
 		plot->plot(pathX,pathY,"r-","pathXY");
-	//	pathX.clear();
-	//	pathY.clear();
-	//	Xs.clear();
-	//	Ys.clear();
-	//	*lock=false;
-	//}else{
-	//	updateScan(	Xs,	 Ys,	pathX,	 pathY,lock );
-	//}
+
 }

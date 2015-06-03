@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{4BC1E7E5-A6D0-40AE-BA6F-C090235BB84D}</ProjectGUID>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>RobcioApp</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Robotics\mrpt-1.2.1\vc11\bin\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">RobcioApp.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">RobcioApp</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Robotics\mrpt-1.2.1\vc11\bin\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">RobcioApp.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">RobcioApp</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Robotics\mrpt-1.2.1\vc11\bin\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">RobcioApp.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">RobcioApp</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Robotics\mrpt-1.2.1\vc11\bin\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">RobcioApp.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">RobcioApp</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions> /Zm1000 /bigobj %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Robotics\mrpt-1.2.1\otherlibs\eigen3;C:\Robotics\mrpt-1.2.1\otherlibs\eigen3\unsupported;C:\Robotics\opencv\bin;C:\Robotics\opencv\sources\include;C:\Robotics\opencv\sources\include\opencv;C:\Robotics\opencv\sources\modules\core\include;C:\Robotics\opencv\sources\modules\flann\include;C:\Robotics\opencv\sources\modules\imgproc\include;C:\Robotics\opencv\sources\modules\highgui\include;C:\Robotics\opencv\sources\modules\features2d\include;C:\Robotics\opencv\sources\modules\calib3d\include;C:\Robotics\opencv\sources\modules\ml\include;C:\Robotics\opencv\sources\modules\video\include;C:\Robotics\opencv\sources\modules\legacy\include;C:\Robotics\opencv\sources\modules\objdetect\include;C:\Robotics\opencv\sources\modules\photo\include;C:\Robotics\opencv\sources\modules\gpu\include;C:\Robotics\opencv\sources\modules\ocl\include;C:\Robotics\opencv\sources\modules\nonfree\include;C:\Robotics\opencv\sources\modules\contrib\include;C:\Robotics\opencv\sources\modules\stitching\include;C:\Robotics\opencv\sources\modules\superres\include;C:\Robotics\opencv\sources\modules\ts\include;C:\Robotics\opencv\sources\modules\videostab\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavcodec;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavformat;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libswscale;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\mswd;C:\Robotics\wxWidgets-2.8.12\include;C:\Robotics\mrpt-1.2.1\.;C:\Robotics\mrpt-1.2.1\vc11\include\mrpt-config\win32;C:\Robotics\mrpt-1.2.1\otherlibs\wxThings;C:\Robotics\mrpt-1.2.1\libs\slam\include;C:\Robotics\mrpt-1.2.1\libs\gui\include;C:\Robotics\mrpt-1.2.1\libs\topography\include;C:\Robotics\mrpt-1.2.1\libs\bayes\include;C:\Robotics\mrpt-1.2.1\libs\graphs\include;C:\Robotics\mrpt-1.2.1\libs\vision\include;C:\Robotics\mrpt-1.2.1\libs\scanmatching\include;C:\Robotics\mrpt-1.2.1\libs\maps\include;C:\Robotics\mrpt-1.2.1\libs\obs\include;C:\Robotics\mrpt-1.2.1\libs\opengl\include;C:\Robotics\mrpt-1.2.1\libs\base\include;C:\Robotics\boost_1_54_0;C:\Robotics\cpp-netlib-0.11.0-final;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;WXUSINGDLL;wxUSE_NO_MANIFEST=1;_DEBUG;__WXDEBUG__;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;WXUSINGDLL;wxUSE_NO_MANIFEST=1;_DEBUG;__WXDEBUG__;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Robotics\mrpt-1.2.1\otherlibs\eigen3;C:\Robotics\mrpt-1.2.1\otherlibs\eigen3\unsupported;C:\Robotics\opencv\bin;C:\Robotics\opencv\sources\include;C:\Robotics\opencv\sources\include\opencv;C:\Robotics\opencv\sources\modules\core\include;C:\Robotics\opencv\sources\modules\flann\include;C:\Robotics\opencv\sources\modules\imgproc\include;C:\Robotics\opencv\sources\modules\highgui\include;C:\Robotics\opencv\sources\modules\features2d\include;C:\Robotics\opencv\sources\modules\calib3d\include;C:\Robotics\opencv\sources\modules\ml\include;C:\Robotics\opencv\sources\modules\video\include;C:\Robotics\opencv\sources\modules\legacy\include;C:\Robotics\opencv\sources\modules\objdetect\include;C:\Robotics\opencv\sources\modules\photo\include;C:\Robotics\opencv\sources\modules\gpu\include;C:\Robotics\opencv\sources\modules\ocl\include;C:\Robotics\opencv\sources\modules\nonfree\include;C:\Robotics\opencv\sources\modules\contrib\include;C:\Robotics\opencv\sources\modules\stitching\include;C:\Robotics\opencv\sources\modules\superres\include;C:\Robotics\opencv\sources\modules\ts\include;C:\Robotics\opencv\sources\modules\videostab\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavcodec;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavformat;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libswscale;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\mswd;C:\Robotics\wxWidgets-2.8.12\include;C:\Robotics\mrpt-1.2.1\.;C:\Robotics\mrpt-1.2.1\vc11\include\mrpt-config\win32;C:\Robotics\mrpt-1.2.1\otherlibs\wxThings;C:\Robotics\mrpt-1.2.1\libs\slam\include;C:\Robotics\mrpt-1.2.1\libs\gui\include;C:\Robotics\mrpt-1.2.1\libs\topography\include;C:\Robotics\mrpt-1.2.1\libs\bayes\include;C:\Robotics\mrpt-1.2.1\libs\graphs\include;C:\Robotics\mrpt-1.2.1\libs\vision\include;C:\Robotics\mrpt-1.2.1\libs\scanmatching\include;C:\Robotics\mrpt-1.2.1\libs\maps\include;C:\Robotics\mrpt-1.2.1\libs\obs\include;C:\Robotics\mrpt-1.2.1\libs\opengl\include;C:\Robotics\mrpt-1.2.1\libs\base\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Robotics\mrpt-1.2.1\otherlibs\eigen3;C:\Robotics\mrpt-1.2.1\otherlibs\eigen3\unsupported;C:\Robotics\opencv\bin;C:\Robotics\opencv\sources\include;C:\Robotics\opencv\sources\include\opencv;C:\Robotics\opencv\sources\modules\core\include;C:\Robotics\opencv\sources\modules\flann\include;C:\Robotics\opencv\sources\modules\imgproc\include;C:\Robotics\opencv\sources\modules\highgui\include;C:\Robotics\opencv\sources\modules\features2d\include;C:\Robotics\opencv\sources\modules\calib3d\include;C:\Robotics\opencv\sources\modules\ml\include;C:\Robotics\opencv\sources\modules\video\include;C:\Robotics\opencv\sources\modules\legacy\include;C:\Robotics\opencv\sources\modules\objdetect\include;C:\Robotics\opencv\sources\modules\photo\include;C:\Robotics\opencv\sources\modules\gpu\include;C:\Robotics\opencv\sources\modules\ocl\include;C:\Robotics\opencv\sources\modules\nonfree\include;C:\Robotics\opencv\sources\modules\contrib\include;C:\Robotics\opencv\sources\modules\stitching\include;C:\Robotics\opencv\sources\modules\superres\include;C:\Robotics\opencv\sources\modules\ts\include;C:\Robotics\opencv\sources\modules\videostab\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavcodec;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavformat;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libswscale;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\mswd;C:\Robotics\wxWidgets-2.8.12\include;C:\Robotics\mrpt-1.2.1\.;C:\Robotics\mrpt-1.2.1\vc11\include\mrpt-config\win32;C:\Robotics\mrpt-1.2.1\otherlibs\wxThings;C:\Robotics\mrpt-1.2.1\libs\slam\include;C:\Robotics\mrpt-1.2.1\libs\gui\include;C:\Robotics\mrpt-1.2.1\libs\topography\include;C:\Robotics\mrpt-1.2.1\libs\bayes\include;C:\Robotics\mrpt-1.2.1\libs\graphs\include;C:\Robotics\mrpt-1.2.1\libs\vision\include;C:\Robotics\mrpt-1.2.1\libs\scanmatching\include;C:\Robotics\mrpt-1.2.1\libs\maps\include;C:\Robotics\mrpt-1.2.1\libs\obs\include;C:\Robotics\mrpt-1.2.1\libs\opengl\include;C:\Robotics\mrpt-1.2.1\libs\base\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:X86 /debug %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxbase28d.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_core.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_gl.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_adv.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_aui.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_html.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxpngd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxtiffd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxjpegd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxzlibd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxregexd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxexpatd.lib;opengl32.lib;glu32.lib;winmm.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;..\..\lib\Debug\mrptwxthings-dbg.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Robotics/mrpt-1.2.1/vc11/lib;C:/Robotics/mrpt-1.2.1/vc11/lib/$(Configuration);C:\Robotics\boost_1_54_0\stage\lib;C:\Robotics\cpp-netlib-0.11.0-final\v10\libs\network\src\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>C:/Robotics/mrpt-1.2.1/vc11/bin/Debug/RobcioApp.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Robotics/mrpt-1.2.1/vc11/bin/Debug/RobcioApp.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+      <Version>
+      </Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions> /Zm1000 /bigobj %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Robotics\mrpt-1.2.1\otherlibs\eigen3;C:\Robotics\mrpt-1.2.1\otherlibs\eigen3\unsupported;C:\Robotics\opencv\bin;C:\Robotics\opencv\sources\include;C:\Robotics\opencv\sources\include\opencv;C:\Robotics\opencv\sources\modules\core\include;C:\Robotics\opencv\sources\modules\flann\include;C:\Robotics\opencv\sources\modules\imgproc\include;C:\Robotics\opencv\sources\modules\highgui\include;C:\Robotics\opencv\sources\modules\features2d\include;C:\Robotics\opencv\sources\modules\calib3d\include;C:\Robotics\opencv\sources\modules\ml\include;C:\Robotics\opencv\sources\modules\video\include;C:\Robotics\opencv\sources\modules\legacy\include;C:\Robotics\opencv\sources\modules\objdetect\include;C:\Robotics\opencv\sources\modules\photo\include;C:\Robotics\opencv\sources\modules\gpu\include;C:\Robotics\opencv\sources\modules\ocl\include;C:\Robotics\opencv\sources\modules\nonfree\include;C:\Robotics\opencv\sources\modules\contrib\include;C:\Robotics\opencv\sources\modules\stitching\include;C:\Robotics\opencv\sources\modules\superres\include;C:\Robotics\opencv\sources\modules\ts\include;C:\Robotics\opencv\sources\modules\videostab\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavcodec;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavformat;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libswscale;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\mswd;C:\Robotics\wxWidgets-2.8.12\include;C:\Robotics\mrpt-1.2.1\.;C:\Robotics\mrpt-1.2.1\vc11\include\mrpt-config\win32;C:\Robotics\mrpt-1.2.1\otherlibs\wxThings;C:\Robotics\mrpt-1.2.1\libs\slam\include;C:\Robotics\mrpt-1.2.1\libs\gui\include;C:\Robotics\mrpt-1.2.1\libs\topography\include;C:\Robotics\mrpt-1.2.1\libs\bayes\include;C:\Robotics\mrpt-1.2.1\libs\graphs\include;C:\Robotics\mrpt-1.2.1\libs\vision\include;C:\Robotics\mrpt-1.2.1\libs\scanmatching\include;C:\Robotics\mrpt-1.2.1\libs\maps\include;C:\Robotics\mrpt-1.2.1\libs\obs\include;C:\Robotics\mrpt-1.2.1\libs\opengl\include;C:\Robotics\mrpt-1.2.1\libs\base\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;WXUSINGDLL;wxUSE_NO_MANIFEST=1;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;WXUSINGDLL;wxUSE_NO_MANIFEST=1;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Robotics\mrpt-1.2.1\otherlibs\eigen3;C:\Robotics\mrpt-1.2.1\otherlibs\eigen3\unsupported;C:\Robotics\opencv\bin;C:\Robotics\opencv\sources\include;C:\Robotics\opencv\sources\include\opencv;C:\Robotics\opencv\sources\modules\core\include;C:\Robotics\opencv\sources\modules\flann\include;C:\Robotics\opencv\sources\modules\imgproc\include;C:\Robotics\opencv\sources\modules\highgui\include;C:\Robotics\opencv\sources\modules\features2d\include;C:\Robotics\opencv\sources\modules\calib3d\include;C:\Robotics\opencv\sources\modules\ml\include;C:\Robotics\opencv\sources\modules\video\include;C:\Robotics\opencv\sources\modules\legacy\include;C:\Robotics\opencv\sources\modules\objdetect\include;C:\Robotics\opencv\sources\modules\photo\include;C:\Robotics\opencv\sources\modules\gpu\include;C:\Robotics\opencv\sources\modules\ocl\include;C:\Robotics\opencv\sources\modules\nonfree\include;C:\Robotics\opencv\sources\modules\contrib\include;C:\Robotics\opencv\sources\modules\stitching\include;C:\Robotics\opencv\sources\modules\superres\include;C:\Robotics\opencv\sources\modules\ts\include;C:\Robotics\opencv\sources\modules\videostab\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavcodec;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavformat;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libswscale;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\mswd;C:\Robotics\wxWidgets-2.8.12\include;C:\Robotics\mrpt-1.2.1\.;C:\Robotics\mrpt-1.2.1\vc11\include\mrpt-config\win32;C:\Robotics\mrpt-1.2.1\otherlibs\wxThings;C:\Robotics\mrpt-1.2.1\libs\slam\include;C:\Robotics\mrpt-1.2.1\libs\gui\include;C:\Robotics\mrpt-1.2.1\libs\topography\include;C:\Robotics\mrpt-1.2.1\libs\bayes\include;C:\Robotics\mrpt-1.2.1\libs\graphs\include;C:\Robotics\mrpt-1.2.1\libs\vision\include;C:\Robotics\mrpt-1.2.1\libs\scanmatching\include;C:\Robotics\mrpt-1.2.1\libs\maps\include;C:\Robotics\mrpt-1.2.1\libs\obs\include;C:\Robotics\mrpt-1.2.1\libs\opengl\include;C:\Robotics\mrpt-1.2.1\libs\base\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Robotics\mrpt-1.2.1\otherlibs\eigen3;C:\Robotics\mrpt-1.2.1\otherlibs\eigen3\unsupported;C:\Robotics\opencv\bin;C:\Robotics\opencv\sources\include;C:\Robotics\opencv\sources\include\opencv;C:\Robotics\opencv\sources\modules\core\include;C:\Robotics\opencv\sources\modules\flann\include;C:\Robotics\opencv\sources\modules\imgproc\include;C:\Robotics\opencv\sources\modules\highgui\include;C:\Robotics\opencv\sources\modules\features2d\include;C:\Robotics\opencv\sources\modules\calib3d\include;C:\Robotics\opencv\sources\modules\ml\include;C:\Robotics\opencv\sources\modules\video\include;C:\Robotics\opencv\sources\modules\legacy\include;C:\Robotics\opencv\sources\modules\objdetect\include;C:\Robotics\opencv\sources\modules\photo\include;C:\Robotics\opencv\sources\modules\gpu\include;C:\Robotics\opencv\sources\modules\ocl\include;C:\Robotics\opencv\sources\modules\nonfree\include;C:\Robotics\opencv\sources\modules\contrib\include;C:\Robotics\opencv\sources\modules\stitching\include;C:\Robotics\opencv\sources\modules\superres\include;C:\Robotics\opencv\sources\modules\ts\include;C:\Robotics\opencv\sources\modules\videostab\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavcodec;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavformat;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libswscale;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\mswd;C:\Robotics\wxWidgets-2.8.12\include;C:\Robotics\mrpt-1.2.1\.;C:\Robotics\mrpt-1.2.1\vc11\include\mrpt-config\win32;C:\Robotics\mrpt-1.2.1\otherlibs\wxThings;C:\Robotics\mrpt-1.2.1\libs\slam\include;C:\Robotics\mrpt-1.2.1\libs\gui\include;C:\Robotics\mrpt-1.2.1\libs\topography\include;C:\Robotics\mrpt-1.2.1\libs\bayes\include;C:\Robotics\mrpt-1.2.1\libs\graphs\include;C:\Robotics\mrpt-1.2.1\libs\vision\include;C:\Robotics\mrpt-1.2.1\libs\scanmatching\include;C:\Robotics\mrpt-1.2.1\libs\maps\include;C:\Robotics\mrpt-1.2.1\libs\obs\include;C:\Robotics\mrpt-1.2.1\libs\opengl\include;C:\Robotics\mrpt-1.2.1\libs\base\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:X86 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxbase28d.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_core.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_gl.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_adv.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_aui.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_html.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxpngd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxtiffd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxjpegd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxzlibd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxregexd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxexpatd.lib;opengl32.lib;glu32.lib;winmm.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;..\..\lib\Release\mrptwxthings.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Robotics/mrpt-1.2.1/vc11/lib;C:/Robotics/mrpt-1.2.1/vc11/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <ImportLibrary>C:/Robotics/mrpt-1.2.1/vc11/bin/Release/RobcioApp.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Robotics/mrpt-1.2.1/vc11/bin/Release/RobcioApp.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+      <Version>
+      </Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <ClCompile>
+      <AdditionalOptions> /Zm1000 /bigobj %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Robotics\mrpt-1.2.1\otherlibs\eigen3;C:\Robotics\mrpt-1.2.1\otherlibs\eigen3\unsupported;C:\Robotics\opencv\bin;C:\Robotics\opencv\sources\include;C:\Robotics\opencv\sources\include\opencv;C:\Robotics\opencv\sources\modules\core\include;C:\Robotics\opencv\sources\modules\flann\include;C:\Robotics\opencv\sources\modules\imgproc\include;C:\Robotics\opencv\sources\modules\highgui\include;C:\Robotics\opencv\sources\modules\features2d\include;C:\Robotics\opencv\sources\modules\calib3d\include;C:\Robotics\opencv\sources\modules\ml\include;C:\Robotics\opencv\sources\modules\video\include;C:\Robotics\opencv\sources\modules\legacy\include;C:\Robotics\opencv\sources\modules\objdetect\include;C:\Robotics\opencv\sources\modules\photo\include;C:\Robotics\opencv\sources\modules\gpu\include;C:\Robotics\opencv\sources\modules\ocl\include;C:\Robotics\opencv\sources\modules\nonfree\include;C:\Robotics\opencv\sources\modules\contrib\include;C:\Robotics\opencv\sources\modules\stitching\include;C:\Robotics\opencv\sources\modules\superres\include;C:\Robotics\opencv\sources\modules\ts\include;C:\Robotics\opencv\sources\modules\videostab\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavcodec;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavformat;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libswscale;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\mswd;C:\Robotics\wxWidgets-2.8.12\include;C:\Robotics\mrpt-1.2.1\.;C:\Robotics\mrpt-1.2.1\vc11\include\mrpt-config\win32;C:\Robotics\mrpt-1.2.1\otherlibs\wxThings;C:\Robotics\mrpt-1.2.1\libs\slam\include;C:\Robotics\mrpt-1.2.1\libs\gui\include;C:\Robotics\mrpt-1.2.1\libs\topography\include;C:\Robotics\mrpt-1.2.1\libs\bayes\include;C:\Robotics\mrpt-1.2.1\libs\graphs\include;C:\Robotics\mrpt-1.2.1\libs\vision\include;C:\Robotics\mrpt-1.2.1\libs\scanmatching\include;C:\Robotics\mrpt-1.2.1\libs\maps\include;C:\Robotics\mrpt-1.2.1\libs\obs\include;C:\Robotics\mrpt-1.2.1\libs\opengl\include;C:\Robotics\mrpt-1.2.1\libs\base\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;WXUSINGDLL;wxUSE_NO_MANIFEST=1;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;WXUSINGDLL;wxUSE_NO_MANIFEST=1;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Robotics\mrpt-1.2.1\otherlibs\eigen3;C:\Robotics\mrpt-1.2.1\otherlibs\eigen3\unsupported;C:\Robotics\opencv\bin;C:\Robotics\opencv\sources\include;C:\Robotics\opencv\sources\include\opencv;C:\Robotics\opencv\sources\modules\core\include;C:\Robotics\opencv\sources\modules\flann\include;C:\Robotics\opencv\sources\modules\imgproc\include;C:\Robotics\opencv\sources\modules\highgui\include;C:\Robotics\opencv\sources\modules\features2d\include;C:\Robotics\opencv\sources\modules\calib3d\include;C:\Robotics\opencv\sources\modules\ml\include;C:\Robotics\opencv\sources\modules\video\include;C:\Robotics\opencv\sources\modules\legacy\include;C:\Robotics\opencv\sources\modules\objdetect\include;C:\Robotics\opencv\sources\modules\photo\include;C:\Robotics\opencv\sources\modules\gpu\include;C:\Robotics\opencv\sources\modules\ocl\include;C:\Robotics\opencv\sources\modules\nonfree\include;C:\Robotics\opencv\sources\modules\contrib\include;C:\Robotics\opencv\sources\modules\stitching\include;C:\Robotics\opencv\sources\modules\superres\include;C:\Robotics\opencv\sources\modules\ts\include;C:\Robotics\opencv\sources\modules\videostab\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavcodec;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavformat;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libswscale;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\mswd;C:\Robotics\wxWidgets-2.8.12\include;C:\Robotics\mrpt-1.2.1\.;C:\Robotics\mrpt-1.2.1\vc11\include\mrpt-config\win32;C:\Robotics\mrpt-1.2.1\otherlibs\wxThings;C:\Robotics\mrpt-1.2.1\libs\slam\include;C:\Robotics\mrpt-1.2.1\libs\gui\include;C:\Robotics\mrpt-1.2.1\libs\topography\include;C:\Robotics\mrpt-1.2.1\libs\bayes\include;C:\Robotics\mrpt-1.2.1\libs\graphs\include;C:\Robotics\mrpt-1.2.1\libs\vision\include;C:\Robotics\mrpt-1.2.1\libs\scanmatching\include;C:\Robotics\mrpt-1.2.1\libs\maps\include;C:\Robotics\mrpt-1.2.1\libs\obs\include;C:\Robotics\mrpt-1.2.1\libs\opengl\include;C:\Robotics\mrpt-1.2.1\libs\base\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Robotics\mrpt-1.2.1\otherlibs\eigen3;C:\Robotics\mrpt-1.2.1\otherlibs\eigen3\unsupported;C:\Robotics\opencv\bin;C:\Robotics\opencv\sources\include;C:\Robotics\opencv\sources\include\opencv;C:\Robotics\opencv\sources\modules\core\include;C:\Robotics\opencv\sources\modules\flann\include;C:\Robotics\opencv\sources\modules\imgproc\include;C:\Robotics\opencv\sources\modules\highgui\include;C:\Robotics\opencv\sources\modules\features2d\include;C:\Robotics\opencv\sources\modules\calib3d\include;C:\Robotics\opencv\sources\modules\ml\include;C:\Robotics\opencv\sources\modules\video\include;C:\Robotics\opencv\sources\modules\legacy\include;C:\Robotics\opencv\sources\modules\objdetect\include;C:\Robotics\opencv\sources\modules\photo\include;C:\Robotics\opencv\sources\modules\gpu\include;C:\Robotics\opencv\sources\modules\ocl\include;C:\Robotics\opencv\sources\modules\nonfree\include;C:\Robotics\opencv\sources\modules\contrib\include;C:\Robotics\opencv\sources\modules\stitching\include;C:\Robotics\opencv\sources\modules\superres\include;C:\Robotics\opencv\sources\modules\ts\include;C:\Robotics\opencv\sources\modules\videostab\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavcodec;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavformat;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libswscale;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\mswd;C:\Robotics\wxWidgets-2.8.12\include;C:\Robotics\mrpt-1.2.1\.;C:\Robotics\mrpt-1.2.1\vc11\include\mrpt-config\win32;C:\Robotics\mrpt-1.2.1\otherlibs\wxThings;C:\Robotics\mrpt-1.2.1\libs\slam\include;C:\Robotics\mrpt-1.2.1\libs\gui\include;C:\Robotics\mrpt-1.2.1\libs\topography\include;C:\Robotics\mrpt-1.2.1\libs\bayes\include;C:\Robotics\mrpt-1.2.1\libs\graphs\include;C:\Robotics\mrpt-1.2.1\libs\vision\include;C:\Robotics\mrpt-1.2.1\libs\scanmatching\include;C:\Robotics\mrpt-1.2.1\libs\maps\include;C:\Robotics\mrpt-1.2.1\libs\obs\include;C:\Robotics\mrpt-1.2.1\libs\opengl\include;C:\Robotics\mrpt-1.2.1\libs\base\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:X86 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxbase28d.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_core.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_gl.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_adv.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_aui.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_html.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxpngd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxtiffd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxjpegd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxzlibd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxregexd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxexpatd.lib;opengl32.lib;glu32.lib;winmm.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;..\..\lib\MinSizeRel\mrptwxthings.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Robotics/mrpt-1.2.1/vc11/lib;C:/Robotics/mrpt-1.2.1/vc11/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <ImportLibrary>C:/Robotics/mrpt-1.2.1/vc11/bin/MinSizeRel/RobcioApp.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Robotics/mrpt-1.2.1/vc11/bin/MinSizeRel/RobcioApp.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+      <Version>
+      </Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <ClCompile>
+      <AdditionalOptions> /Zm1000 /bigobj %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Robotics\mrpt-1.2.1\otherlibs\eigen3;C:\Robotics\mrpt-1.2.1\otherlibs\eigen3\unsupported;C:\Robotics\opencv\bin;C:\Robotics\opencv\sources\include;C:\Robotics\opencv\sources\include\opencv;C:\Robotics\opencv\sources\modules\core\include;C:\Robotics\opencv\sources\modules\flann\include;C:\Robotics\opencv\sources\modules\imgproc\include;C:\Robotics\opencv\sources\modules\highgui\include;C:\Robotics\opencv\sources\modules\features2d\include;C:\Robotics\opencv\sources\modules\calib3d\include;C:\Robotics\opencv\sources\modules\ml\include;C:\Robotics\opencv\sources\modules\video\include;C:\Robotics\opencv\sources\modules\legacy\include;C:\Robotics\opencv\sources\modules\objdetect\include;C:\Robotics\opencv\sources\modules\photo\include;C:\Robotics\opencv\sources\modules\gpu\include;C:\Robotics\opencv\sources\modules\ocl\include;C:\Robotics\opencv\sources\modules\nonfree\include;C:\Robotics\opencv\sources\modules\contrib\include;C:\Robotics\opencv\sources\modules\stitching\include;C:\Robotics\opencv\sources\modules\superres\include;C:\Robotics\opencv\sources\modules\ts\include;C:\Robotics\opencv\sources\modules\videostab\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavcodec;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavformat;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libswscale;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\mswd;C:\Robotics\wxWidgets-2.8.12\include;C:\Robotics\mrpt-1.2.1\.;C:\Robotics\mrpt-1.2.1\vc11\include\mrpt-config\win32;C:\Robotics\mrpt-1.2.1\otherlibs\wxThings;C:\Robotics\mrpt-1.2.1\libs\slam\include;C:\Robotics\mrpt-1.2.1\libs\gui\include;C:\Robotics\mrpt-1.2.1\libs\topography\include;C:\Robotics\mrpt-1.2.1\libs\bayes\include;C:\Robotics\mrpt-1.2.1\libs\graphs\include;C:\Robotics\mrpt-1.2.1\libs\vision\include;C:\Robotics\mrpt-1.2.1\libs\scanmatching\include;C:\Robotics\mrpt-1.2.1\libs\maps\include;C:\Robotics\mrpt-1.2.1\libs\obs\include;C:\Robotics\mrpt-1.2.1\libs\opengl\include;C:\Robotics\mrpt-1.2.1\libs\base\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;WXUSINGDLL;wxUSE_NO_MANIFEST=1;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;WXUSINGDLL;wxUSE_NO_MANIFEST=1;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Robotics\mrpt-1.2.1\otherlibs\eigen3;C:\Robotics\mrpt-1.2.1\otherlibs\eigen3\unsupported;C:\Robotics\opencv\bin;C:\Robotics\opencv\sources\include;C:\Robotics\opencv\sources\include\opencv;C:\Robotics\opencv\sources\modules\core\include;C:\Robotics\opencv\sources\modules\flann\include;C:\Robotics\opencv\sources\modules\imgproc\include;C:\Robotics\opencv\sources\modules\highgui\include;C:\Robotics\opencv\sources\modules\features2d\include;C:\Robotics\opencv\sources\modules\calib3d\include;C:\Robotics\opencv\sources\modules\ml\include;C:\Robotics\opencv\sources\modules\video\include;C:\Robotics\opencv\sources\modules\legacy\include;C:\Robotics\opencv\sources\modules\objdetect\include;C:\Robotics\opencv\sources\modules\photo\include;C:\Robotics\opencv\sources\modules\gpu\include;C:\Robotics\opencv\sources\modules\ocl\include;C:\Robotics\opencv\sources\modules\nonfree\include;C:\Robotics\opencv\sources\modules\contrib\include;C:\Robotics\opencv\sources\modules\stitching\include;C:\Robotics\opencv\sources\modules\superres\include;C:\Robotics\opencv\sources\modules\ts\include;C:\Robotics\opencv\sources\modules\videostab\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavcodec;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavformat;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libswscale;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\mswd;C:\Robotics\wxWidgets-2.8.12\include;C:\Robotics\mrpt-1.2.1\.;C:\Robotics\mrpt-1.2.1\vc11\include\mrpt-config\win32;C:\Robotics\mrpt-1.2.1\otherlibs\wxThings;C:\Robotics\mrpt-1.2.1\libs\slam\include;C:\Robotics\mrpt-1.2.1\libs\gui\include;C:\Robotics\mrpt-1.2.1\libs\topography\include;C:\Robotics\mrpt-1.2.1\libs\bayes\include;C:\Robotics\mrpt-1.2.1\libs\graphs\include;C:\Robotics\mrpt-1.2.1\libs\vision\include;C:\Robotics\mrpt-1.2.1\libs\scanmatching\include;C:\Robotics\mrpt-1.2.1\libs\maps\include;C:\Robotics\mrpt-1.2.1\libs\obs\include;C:\Robotics\mrpt-1.2.1\libs\opengl\include;C:\Robotics\mrpt-1.2.1\libs\base\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Robotics\mrpt-1.2.1\otherlibs\eigen3;C:\Robotics\mrpt-1.2.1\otherlibs\eigen3\unsupported;C:\Robotics\opencv\bin;C:\Robotics\opencv\sources\include;C:\Robotics\opencv\sources\include\opencv;C:\Robotics\opencv\sources\modules\core\include;C:\Robotics\opencv\sources\modules\flann\include;C:\Robotics\opencv\sources\modules\imgproc\include;C:\Robotics\opencv\sources\modules\highgui\include;C:\Robotics\opencv\sources\modules\features2d\include;C:\Robotics\opencv\sources\modules\calib3d\include;C:\Robotics\opencv\sources\modules\ml\include;C:\Robotics\opencv\sources\modules\video\include;C:\Robotics\opencv\sources\modules\legacy\include;C:\Robotics\opencv\sources\modules\objdetect\include;C:\Robotics\opencv\sources\modules\photo\include;C:\Robotics\opencv\sources\modules\gpu\include;C:\Robotics\opencv\sources\modules\ocl\include;C:\Robotics\opencv\sources\modules\nonfree\include;C:\Robotics\opencv\sources\modules\contrib\include;C:\Robotics\opencv\sources\modules\stitching\include;C:\Robotics\opencv\sources\modules\superres\include;C:\Robotics\opencv\sources\modules\ts\include;C:\Robotics\opencv\sources\modules\videostab\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavcodec;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libavformat;C:\Robotics\ffmpeg-20140629-git-f02a440-win32-shared\include\libswscale;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\mswd;C:\Robotics\wxWidgets-2.8.12\include;C:\Robotics\mrpt-1.2.1\.;C:\Robotics\mrpt-1.2.1\vc11\include\mrpt-config\win32;C:\Robotics\mrpt-1.2.1\otherlibs\wxThings;C:\Robotics\mrpt-1.2.1\libs\slam\include;C:\Robotics\mrpt-1.2.1\libs\gui\include;C:\Robotics\mrpt-1.2.1\libs\topography\include;C:\Robotics\mrpt-1.2.1\libs\bayes\include;C:\Robotics\mrpt-1.2.1\libs\graphs\include;C:\Robotics\mrpt-1.2.1\libs\vision\include;C:\Robotics\mrpt-1.2.1\libs\scanmatching\include;C:\Robotics\mrpt-1.2.1\libs\maps\include;C:\Robotics\mrpt-1.2.1\libs\obs\include;C:\Robotics\mrpt-1.2.1\libs\opengl\include;C:\Robotics\mrpt-1.2.1\libs\base\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:X86 /debug %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxbase28d.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_core.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_gl.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_adv.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_aui.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxmsw28d_html.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxpngd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxtiffd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxjpegd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxzlibd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxregexd.lib;C:\Robotics\wxWidgets-2.8.12\lib\vc_dll\wxexpatd.lib;opengl32.lib;glu32.lib;winmm.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;..\..\lib\RelWithDebInfo\mrptwxthings.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Robotics/mrpt-1.2.1/vc11/lib;C:/Robotics/mrpt-1.2.1/vc11/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>C:/Robotics/mrpt-1.2.1/vc11/bin/RelWithDebInfo/RobcioApp.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Robotics/mrpt-1.2.1/vc11/bin/RelWithDebInfo/RobcioApp.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+      <Version>
+      </Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\apps\RobcioApp\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule C:/Robotics/mrpt-1.2.1/apps/RobcioApp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -HC:/Robotics/mrpt-1.2.1 -BC:/Robotics/mrpt-1.2.1/vc11 --check-stamp-file C:\Robotics\mrpt-1.2.1\vc11\apps\RobcioApp\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:/Robotics/mrpt-1.2.1/apps/RobcioApp/CMakeLists.txt;C:\Robotics\mrpt-1.2.1\apps\RobcioApp\CMakeLists.txt;C:\Robotics\mrpt-1.2.1\cmakemodules\AssureCMakeRootFile.cmake;C:\Robotics\mrpt-1.2.1\apps\RobcioApp\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Robotics\mrpt-1.2.1\vc11\apps\RobcioApp\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule C:/Robotics/mrpt-1.2.1/apps/RobcioApp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -HC:/Robotics/mrpt-1.2.1 -BC:/Robotics/mrpt-1.2.1/vc11 --check-stamp-file C:\Robotics\mrpt-1.2.1\vc11\apps\RobcioApp\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:/Robotics/mrpt-1.2.1/apps/RobcioApp/CMakeLists.txt;C:\Robotics\mrpt-1.2.1\apps\RobcioApp\CMakeLists.txt;C:\Robotics\mrpt-1.2.1\cmakemodules\AssureCMakeRootFile.cmake;C:\Robotics\mrpt-1.2.1\apps\RobcioApp\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Robotics\mrpt-1.2.1\vc11\apps\RobcioApp\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule C:/Robotics/mrpt-1.2.1/apps/RobcioApp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -HC:/Robotics/mrpt-1.2.1 -BC:/Robotics/mrpt-1.2.1/vc11 --check-stamp-file C:\Robotics\mrpt-1.2.1\vc11\apps\RobcioApp\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:/Robotics/mrpt-1.2.1/apps/RobcioApp/CMakeLists.txt;C:\Robotics\mrpt-1.2.1\apps\RobcioApp\CMakeLists.txt;C:\Robotics\mrpt-1.2.1\cmakemodules\AssureCMakeRootFile.cmake;C:\Robotics\mrpt-1.2.1\apps\RobcioApp\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Robotics\mrpt-1.2.1\vc11\apps\RobcioApp\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule C:/Robotics/mrpt-1.2.1/apps/RobcioApp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -HC:/Robotics/mrpt-1.2.1 -BC:/Robotics/mrpt-1.2.1/vc11 --check-stamp-file C:\Robotics\mrpt-1.2.1\vc11\apps\RobcioApp\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:/Robotics/mrpt-1.2.1/apps/RobcioApp/CMakeLists.txt;C:\Robotics\mrpt-1.2.1\apps\RobcioApp\CMakeLists.txt;C:\Robotics\mrpt-1.2.1\cmakemodules\AssureCMakeRootFile.cmake;C:\Robotics\mrpt-1.2.1\apps\RobcioApp\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Robotics\mrpt-1.2.1\vc11\apps\RobcioApp\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\apps\RobcioApp\RobcioLocalizationPF.cpp" />
+    <ClCompile Include="..\..\..\apps\RobcioApp\RobcioMapTools.cpp" />
+    <ClCompile Include="..\..\..\apps\RobcioApp\RobcioTools.cpp" />
+    <ClCompile Include="..\..\..\apps\RobcioApp\RobcioWebService.cpp" />
+    <ClCompile Include="..\..\..\apps\RobcioApp\RobcioWinPlot.cpp" />
+    <ClInclude Include="..\..\..\apps\RobcioApp\RobcioData.h" />
+    <ClCompile Include="..\..\..\apps\RobcioApp\RobcioData.cpp" />
+    <ClCompile Include="..\..\..\apps\RobcioApp\main.cpp" />
+    <ClInclude Include="..\..\..\apps\RobcioApp\RobcioLocalizationPF.h" />
+    <ClInclude Include="..\..\..\apps\RobcioApp\RobcioMapTools.h" />
+    <ClInclude Include="..\..\..\apps\RobcioApp\RobcioTools.h" />
+    <ClInclude Include="..\..\..\apps\RobcioApp\RobcioWebService.h" />
+    <ClInclude Include="..\..\..\apps\RobcioApp\RobcioWinPlot.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:/Robotics/mrpt-1.2.1/vc11/ZERO_CHECK.vcxproj">
+      <Project>542D513E-037B-4AC9-8797-B350CF2DA2F1</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Robotics/mrpt-1.2.1/vc11/libs/base/mrpt-base.vcxproj">
+      <Project>CE67D16B-98B9-4042-B588-9EEDE99E21F7</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Robotics/mrpt-1.2.1/vc11/libs/bayes/mrpt-bayes.vcxproj">
+      <Project>C3A2FB9D-0DB7-4E9C-825A-8128CA1B015F</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Robotics/mrpt-1.2.1/vc11/libs/graphs/mrpt-graphs.vcxproj">
+      <Project>4069F677-587B-4913-AA39-E7BA81A7AA71</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Robotics/mrpt-1.2.1/vc11/libs/gui/mrpt-gui.vcxproj">
+      <Project>D0361F9F-DC1A-4E95-AAF1-0EAE73B43306</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Robotics/mrpt-1.2.1/vc11/libs/maps/mrpt-maps.vcxproj">
+      <Project>754E5B78-C712-479F-8C01-71D33FCACD41</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Robotics/mrpt-1.2.1/vc11/libs/obs/mrpt-obs.vcxproj">
+      <Project>82ACBFAF-D873-471C-BF68-EBEE70CC3473</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Robotics/mrpt-1.2.1/vc11/libs/opengl/mrpt-opengl.vcxproj">
+      <Project>00B2AFE5-F5FD-401D-956D-B5A87A9D6A89</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Robotics/mrpt-1.2.1/vc11/libs/scanmatching/mrpt-scanmatching.vcxproj">
+      <Project>56549A90-9B8C-4350-BEEF-0B8775BDACC1</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Robotics/mrpt-1.2.1/vc11/libs/slam/mrpt-slam.vcxproj">
+      <Project>F868361D-653E-4751-853B-557D5BC6318A</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Robotics/mrpt-1.2.1/vc11/libs/topography/mrpt-topography.vcxproj">
+      <Project>950E0E33-1952-4A80-8759-73125BF9275C</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Robotics/mrpt-1.2.1/vc11/libs/vision/mrpt-vision.vcxproj">
+      <Project>8B16F0C6-842C-4D99-9BF2-F86D449F52F1</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Robotics/mrpt-1.2.1/vc11/otherlibs/wxThings/mrptwxthings.vcxproj">
+      <Project>D6CDA744-10CF-461C-B1FC-51C7E69C514C</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
